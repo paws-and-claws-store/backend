@@ -8,7 +8,7 @@ mongoose.set('strictQuery', true);
 
 mongoose.connect(DB_HOST)
   .then(() => {
-    app.listen(3000, () => {
+    app.listen(4000, () => {
       console.log(`Server was started on port 3000`);
     });
   })
