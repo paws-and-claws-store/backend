@@ -1,9 +1,11 @@
 const {Product} = require('../models/product');
 
 const getAllProducts = async (req, res) => {
-  console.log(req.url);
+
+  const {page = 1, limit = 12} = req.query;
+
   try {
-    const result = await Product.find();
+    const result = await Product.paginate({}, {page, limit});
     res.json(result);
   } catch (err) {
     throw new Error(err);
