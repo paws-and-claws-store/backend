@@ -3,7 +3,17 @@ const router = Router();
 
 const ctrlProducts = require('../../controllers/products');
 
-router.get('/', ctrlProducts.getAllProducts);
+// const compileProductCard = (arr, n) => {
+//
+//   console.log(arr);
+//
+//   return arr;
+// }
+
+// router.get('/', ctrlProducts.getAllProducts);
+router.get('/', ctrlProducts.getHomeProducts);
+
+router.get('/allItems', ctrlProducts.getAllProducts);
 
 router.get('/pets/:onePet', ctrlProducts.getProductsByPet);
 

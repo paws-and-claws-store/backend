@@ -3,52 +3,58 @@
 [адреса бека](https://paws-and-claws-store-backend.onrender.com/)
 
 - [Запити](#запити)
-  - [Для сторінок `/products`](#для-сторінок-products)
-  - [Для сторінок `/products/pets/:onePet`](#для-сторінок-productspetsonepet)
-  - [Для сторінок `/products/categories/:oneCategory`](#для-сторінок-productscategoriesonecategory)
-  - [Для сторінок `/products/product_types/:oneProductType`](#для-сторінок-productsproduct_typesoneproducttype)
-  - [Для сторінок одного продукту `/products/:oneProduct`](#для-сторінок-одного-продукту-productsoneproduct)
+  - [Для стартової сторінки]
+  - [Для отримання всіх продуктів]
+  - [Для запитів по тваринах `onePet`]
+  - [Для запитів по категоріях `oneCategory`]
+  - [Для запитів по типах продуктів `oneProductType`]
+  - [Для запитів для одного продукту `oneProduct`]
 - [Пагінація](#пагінація)
 
 ## Запити
 
-### Для сторінок `/products`
+### Для стартової сторінки
+
+Повертає перші 12 продуктів відсортовані таким чином, щоб спочатку йшли продукти, що мають знижку на вагу від меньшої до більшої, далі всі інші продукти без знижок
 
 - `/api/products`
-- `/api/products?page=<номер сторінки>&limit=<кількість елементів на сторінці>`
 
-_Присутня пагінація_
+### Для отримання всіх продуктів
 
-### Для сторінок `/products/pets/:onePet`
+Повертає всі продукти без групування по назві
 
-- `/api/poducts/pets/<Тварина>`
-- `/api/products/pets/<Тварина>?page=<номер сторінки>&limit=<кількість елементів на сторінці>`
+- `/api/products/allItems`
 
-**Тварини**
+### Для запитів по тваринах `onePet`
+
+- `/api/poducts/pets/:onePet`
+- `/api/products/pets/:onePet?page=<номер сторінки>&limit=<кількість елементів на сторінці>`
+
+**Тварини:**
 
 - `for_dogs`
 - `for_cats`
 
 _Присутня пагінація_
 
-### Для сторінок `/products/categories/:oneCategory`
+### Для запитів по категоріях `oneCategory`
 
-- `/api/products/categories/<Категорія>`
-- `/api/products/categories/<Категорія>?page=<номер сторінки>&limit=<кількість елементів на сторінці>`
+- `/api/products/categories/:oneCategory`
+- `/api/products/categories/:oneCategory?page=<номер сторінки>&limit=<кількість елементів на сторінці>`
 
-**Категорії**
+**Категорії:**
 
 - `food_for_dogs`
 - `food_for_cats`
 
 _Присутня пагінація_
 
-### Для сторінок `/products/product_types/:oneProductType`
+### Для запитів по типах продуктів `oneProductType`
 
-- `/api/products/product_types/<Тип продукту>`
-- `/api/products/product_types/<Тип продукту>?page=<номер сторінки>&limit=<кількість елементів на сторінці>`
+- `/api/products/product_types/:oneProductType`
+- `/api/products/product_types/:oneProductType?page=<номер сторінки>&limit=<кількість елементів на сторінці>`
 
-**Типи продукту**
+**Типи продукту:**
 
 - `dry_dog_food`
 - `wet_dog_food`
@@ -59,13 +65,13 @@ _Присутня пагінація_
 
 _Присутня пагінація_
 
-### Для сторінок одного продукту `/products/:oneProduct`
+### Для запитів для одного продукту `oneProduct`
 
-- `/api/products/<поле _id продукту з БД>`
+- `/api/products/:oneProduct`
 
 ## Пагінація
 
-При запиті з пагінацією нам поертається об'єкт
+При запиті з пагінацією нам повертається об'єкт
 
 ```javascript
 {
