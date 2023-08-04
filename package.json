@@ -2,17 +2,17 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
     "dev": "cross-env NODE_ENV=development nodemon ./server.js"
   },
+  "engines": {
+    "node": ">=18 <19"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paws-and-claws-store/backend.git"
-  },
-  "engines": {
-    "node": ">=16 <19"
   },
   "keywords": [],
   "author": "",
@@ -21,16 +21,16 @@
     "url": "https://github.com/paws-and-claws-store/backend/issues"
   },
   "homepage": "https://github.com/paws-and-claws-store/backend#readme",
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
   "dependencies": {
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "joi": "^17.9.2",
     "mongoose": "^7.4.1",
+    "mongoose-paginate-v2": "^1.7.31",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
