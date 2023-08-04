@@ -1,12 +1,31 @@
 const {Product} = require('../models/product');
+const {compileCards} = require('../helpers');
+
+// const getAllProducts = async (req, res) => {
+//
+//   const {page = 1, limit = 12} = req.query;
+//
+//   try {
+//     const result = await Product.paginate({}, {page, limit});
+//     res.json(result);
+//   } catch (err) {
+//     throw new Error(err);
+//   }
+// };
 
 const getAllProducts = async (req, res) => {
-
-  const {page = 1, limit = 12} = req.query;
-
   try {
-    const result = await Product.paginate({}, {page, limit});
+    const result = await Product.find();
     res.json(result);
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getHomeProducts = async (req, res) => {
+  try {
+    const result = await Product.find();
+    res.json(compileCards(result, 12));
   } catch (err) {
     throw new Error(err);
   }
@@ -18,7 +37,7 @@ const getProductsByPet = async (req, res) => {
   const {onePet} = req.params;
 
   try {
-    const result = await Product.paginate({"pet.code": onePet}, {page, limit});
+    const result = await Product.paginate({'pet.code': onePet}, {page, limit});
     res.json(result);
   } catch (err) {
     throw new Error(err);
@@ -31,7 +50,7 @@ const getProductsByCategory = async (req, res) => {
   const {oneCategory} = req.params;
 
   try {
-    const result = await Product.paginate({"category.code": oneCategory}, {page, limit});
+    const result = await Product.paginate({'category.code': oneCategory}, {page, limit});
     res.json(result);
   } catch (err) {
     throw new Error(err);
@@ -44,7 +63,7 @@ const getProductsByTypeProduct = async (req, res) => {
   const {oneProductType} = req.params;
 
   try {
-    const result = await Product.paginate({"productType.code": oneProductType}, {page, limit});
+    const result = await Product.paginate({'productType.code': oneProductType}, {page, limit});
     res.json(result);
   } catch (err) {
     throw new Error(err);
@@ -64,6 +83,7 @@ const getProductDetails = async (req, res, next) => {
 
 module.exports = {
   getAllProducts,
+  getHomeProducts,
   getProductsByPet,
   getProductsByCategory,
   getProductsByTypeProduct,
