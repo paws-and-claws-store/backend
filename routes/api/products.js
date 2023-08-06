@@ -11,8 +11,11 @@ const ctrlProducts = require('../../controllers/products');
 // }
 
 // router.get('/', ctrlProducts.getAllProducts);
+
+// Перелік продуктів на стартову сторінку
 router.get('/', ctrlProducts.getHomeProducts);
 
+// Перелік всіх продуктів для кожної ваги окремо
 router.get('/allItems', ctrlProducts.getAllProducts);
 
 router.get('/pets/:onePet', ctrlProducts.getProductsByPet);

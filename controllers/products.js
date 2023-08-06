@@ -1,5 +1,5 @@
 const {Product} = require('../models/product');
-const {compileCards} = require('../helpers');
+const {compileCards, ctrlErrorHandler} = require('../helpers');
 
 // const getAllProducts = async (req, res) => {
 //
@@ -14,18 +14,33 @@ const {compileCards} = require('../helpers');
 // };
 
 const getAllProducts = async (req, res) => {
-  try {
-    const result = await Product.find();
-    res.json(result);
-  } catch (err) {
-    throw new Error(err);
-  }
+  const result = await Product.find();
+  console.log(result);
+  const data = [];
+  // result.forEach((item) => {
+  //   for (const itemKey in item) {
+  //     console.log(itemKey);
+  //   }
+  // });
+  res.json(data);
 };
+
+// const getHomeProducts = async (req, res) => {
+//   try {
+//     const result = await Product.find();
+//     res.json(compileCards(result, 12));
+//   } catch (err) {
+//     throw new Error(err);
+//   }
+// };
 
 const getHomeProducts = async (req, res) => {
   try {
-    const result = await Product.find();
-    res.json(compileCards(result, 12));
+    const result = await Product
+      .find({}, {min_sale: 0})
+      .sort({min_sale: 1})
+      .limit(12);
+    res.json(result);
   } catch (err) {
     throw new Error(err);
   }
@@ -82,7 +97,7 @@ const getProductDetails = async (req, res, next) => {
 }
 
 module.exports = {
-  getAllProducts,
+  getAllProducts: ctrlErrorHandler(getAllProducts),
   getHomeProducts,
   getProductsByPet,
   getProductsByCategory,
