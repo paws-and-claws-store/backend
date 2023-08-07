@@ -6,44 +6,37 @@ const productSchema = new Schema({
     type: String,
     required: [true, 'Product name is required'],
   },
-  pet: {
-    ua: String,
-    en: String,
-    code: String,
-  },
-  category: {
-    us: String,
-    ua: String,
-    code: String,
-  },
   brand: {
     type: String,
     required: [true, 'Brand is required'],
   },
-  size: {
-    type: Number,
-    required: [true, 'Size is required'],
-  },
-  price: {
-    type: Number,
-    required: [true, 'Size is required'],
-  },
-  sale: {
-    type: Number,
-  },
-  count: {
-    type: Number,
-    required: [true, 'Count is required'],
-  },
-  productType: {
-    us: String,
-    ua: String,
-    code: String,
-  },
-  shortDiscription: {
+  items: [
+    {
+      size: {
+        type: Number,
+        required: [true, 'Size is required'],
+      },
+      price: {
+        type: Number,
+        required: [true, 'Size is required'],
+      },
+      sale: {
+        type: Number,
+      },
+      count: {
+        type: Number,
+        required: [true, 'Count is required'],
+      },
+      productCode: {
+        type: String,
+        unique: true,
+      },
+    }
+  ],
+  shortDescription: {
     type: String,
   },
-  fullDiscription: {
+  fullDescription: {
     type: String,
   },
   ingredients: {
@@ -63,14 +56,25 @@ const productSchema = new Schema({
   reviews: {
     type: [String],
   },
-  productCode: {
-    type: String,
-    unique: true,
+  // productCode: {
+  //   type: String,
+  //   unique: true,
+  // },
+  _pet: {
+    type: Schema.Types.ObjectId,
+    ref: 'Pet'
   },
-  producingCountry: {
-    ua: String,
-    en: String,
-    code: String,
+  _category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
+  },
+  _variant: {
+    type: Schema.Types.ObjectId,
+    ref: 'Variant'
+  },
+  _country: {
+    type: Schema.Types.ObjectId,
+    ref: 'Country',
   },
 },
 {

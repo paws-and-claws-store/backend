@@ -6,20 +6,25 @@ const getPetsStructure = async (req, res) => {
   res.json(result);
 };
 
-const getCategoryStructure = async (req, res) => {
+const getCategoriesStructure = async (req, res) => {
   const {idPet} = req.params;
   const categories = await Category.find({_pet: idPet}).populate('_pet');
   res.json(categories);
 };
 
-const getVariantStructure = async (req, res) => {
+const getVariantsStructure = async (req, res) => {
   const {idPet, idCategory} = req.params;
   const variants = await Variant.find({_pet: idPet, _category: idCategory}).populate('_pet _category');
   res.json(variants);
 };
 
+const getCountriesStructure = async (req, res) => {
+  res.json([])
+};
+
 module.exports = {
   getPetsStructure: ctrlErrorHandler(getPetsStructure),
-  getCategoryStructure: ctrlErrorHandler(getCategoryStructure),
-  getVariantStructure: ctrlErrorHandler(getVariantStructure),
+  getCategoriesStructure: ctrlErrorHandler(getCategoriesStructure),
+  getVariantsStructure: ctrlErrorHandler(getVariantsStructure),
+  getCountriesStructure: ctrlErrorHandler(getCountriesStructure),
 };

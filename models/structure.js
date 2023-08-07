@@ -60,12 +60,30 @@ const variantSchema = new Schema({
   },
 });
 
+const countrySchema = new Schema({
+  ua: {
+    type: String,
+    required: true,
+  },
+  en: {
+    type: String,
+    required: true,
+  },
+  code: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+});
+
 const Pet = model('Pet', petSchema);
 const Category = model('Category', categorySchema);
 const Variant = model('Variant', variantSchema);
+const Country = model('Country', countrySchema);
 
 module.exports = {
   Pet,
   Category,
   Variant,
+  Country,
 };
