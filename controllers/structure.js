@@ -18,13 +18,62 @@ const getVariantsStructure = async (req, res) => {
   res.json(variants);
 };
 
-const getCountriesStructure = async (req, res) => {
-  res.json([])
+const getAllStructure = async (req, res) => {
+  const pets = await Pet.find();
+  const categories = await Category.find();
+  const variants = await Variant.find();
+
+  const dataPets = pets.map((pet) => {
+    const dataPet = {};
+
+    dataPet._id = pet._id;
+    dataPet.ua = pet.ua;
+    dataPet.en = pet.en;
+    dataPet.code = pet.code;
+    dataPet._categories = [];
+
+    return dataPet;
+  });
+
+  const dataCategories = categories.map((category) => {
+    const dataCategory = {};
+
+    dataCategory._id = category._id;
+    dataCategory.ua = category.ua;
+    dataCategory.en = category.en;
+    dataCategory.code = category.code;
+    dataCategory._pet = category._pet;
+    dataCategory._variants = [];
+
+    return dataCategory;
+  });
+
+  variants.forEach((item) => {
+    const id_category = item._category.toString();
+
+    dataCategories.forEach((category) => {
+      if (id_category === category._id.toString()) {
+        category._variants.push(item);
+      }
+    });
+  });
+
+  dataCategories.forEach((item) => {
+    const id_pet = item._pet.toString();
+
+    dataPets.forEach((pet) => {
+      if (id_pet === pet._id.toString()) {
+        pet._categories.push(item);
+      }
+    });
+  });
+
+  res.json(dataPets);
 };
 
 module.exports = {
   getPetsStructure: ctrlErrorHandler(getPetsStructure),
   getCategoriesStructure: ctrlErrorHandler(getCategoriesStructure),
   getVariantsStructure: ctrlErrorHandler(getVariantsStructure),
-  getCountriesStructure: ctrlErrorHandler(getCountriesStructure),
+  getAllStructure: ctrlErrorHandler(getAllStructure),
 };
