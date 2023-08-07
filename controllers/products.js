@@ -1,34 +1,51 @@
 const {Product} = require('../models/product');
-const {compileCards} = require('../helpers');
-
-// const getAllProducts = async (req, res) => {
-//
-//   const {page = 1, limit = 12} = req.query;
-//
-//   try {
-//     const result = await Product.paginate({}, {page, limit});
-//     res.json(result);
-//   } catch (err) {
-//     throw new Error(err);
-//   }
-// };
+const {ctrlErrorHandler} = require('../helpers');
 
 const getAllProducts = async (req, res) => {
-  try {
-    const result = await Product.find();
-    res.json(result);
-  } catch (err) {
-    throw new Error(err);
-  }
+  const result = await Product
+    .find()
+    .populate('_pet _category _variant _country');
+  const data = [];
+
+  result.forEach((card) => {
+    card.items.forEach((element) => {
+      const newItem = {};
+      console.log(element);
+      newItem._id = element._id;
+      newItem.size = element.size;
+      newItem.price = element.price;
+      if (element.sale) {
+        newItem.sale = element.sale;
+      }
+      newItem.count = element.count;
+      newItem.productCode = element.productCode;
+      newItem.productName = card.productName;
+      newItem.brand = card.brand;
+      newItem.shortDescription = card.shortDescription;
+      newItem.fullDescription = card.fullDescription;
+      newItem.ingredients = card.ingredients;
+      newItem.mainImage = card.mainImage;
+      newItem.images = card.images;
+      newItem.reviews = card.reviews;
+      newItem._pet = card._pet;
+      newItem._category = card._category;
+      newItem._variant = card._variant;
+      newItem._country = card._country;
+
+      data.push(newItem);
+    });
+  });
+
+  res.json(data);
 };
 
 const getHomeProducts = async (req, res) => {
-  try {
-    const result = await Product.find();
-    res.json(compileCards(result, 12));
-  } catch (err) {
-    throw new Error(err);
-  }
+  const result = await Product
+    .find({}, {min_sale: 0})
+    .populate('_pet _category _variant _country')
+    .sort({min_sale: 1})
+    .limit(12);
+  res.json(result);
 };
 
 const getProductsByPet = async (req, res) => {
@@ -82,8 +99,8 @@ const getProductDetails = async (req, res, next) => {
 }
 
 module.exports = {
-  getAllProducts,
-  getHomeProducts,
+  getAllProducts: ctrlErrorHandler(getAllProducts),
+  getHomeProducts: ctrlErrorHandler(getHomeProducts),
   getProductsByPet,
   getProductsByCategory,
   getProductsByTypeProduct,
