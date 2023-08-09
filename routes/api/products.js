@@ -3,27 +3,22 @@ const router = Router();
 
 const ctrlProducts = require('../../controllers/products');
 
-// const compileProductCard = (arr, n) => {
-//
-//   console.log(arr);
-//
-//   return arr;
-// }
-
-// router.get('/', ctrlProducts.getAllProducts);
-
 // Перелік продуктів на стартову сторінку
 router.get('/', ctrlProducts.getHomeProducts);
 
-// Перелік всіх продуктів для кожної ваги окремо
+// Перелік всіх продуктів
 router.get('/allItems', ctrlProducts.getAllProducts);
 
-router.get('/pets/:onePet', ctrlProducts.getProductsByPet);
+// Перелік всіх продуктів, для тварин :idPet
+router.get('/pets/:idPet', ctrlProducts.getProductsByPet);
 
-router.get('/categories/:oneCategory', ctrlProducts.getProductsByCategory);
+// Перелік всіх продуктів, для тварин :idCategory
+router.get('/categories/:idCategory', ctrlProducts.getProductsByCategory);
 
-router.get('/product_types/:oneProductType', ctrlProducts.getProductsByTypeProduct);
+// Перелік всіх продуктів, для тварин :idVariant
+router.get('/product_types/:idVariant', ctrlProducts.getProductsByTypeProduct);
 
-router.get('/:oneProduct', ctrlProducts.getProductDetails);
+// Повертає дані для одного продукту :idProduct
+router.get('/:idProduct', ctrlProducts.getProductDetails);
 
 module.exports = router;
