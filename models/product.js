@@ -56,10 +56,6 @@ const productSchema = new Schema({
   reviews: {
     type: [String],
   },
-  // productCode: {
-  //   type: String,
-  //   unique: true,
-  // },
   _pet: {
     type: Schema.Types.ObjectId,
     ref: 'Pet'

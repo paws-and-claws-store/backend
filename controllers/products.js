@@ -1,7 +1,9 @@
 const {Product} = require('../models/product');
-const {ctrlErrorHandler} = require('../helpers');
+const {ctrlErrorHandler, pagination} = require('../helpers');
 
-const getAllProducts = async (req, res) => {
+const {LIMIT_PAGINATION} = require('../config/consts');
+
+/*const getAllProducts = async (req, res) => {
   const result = await Product
     .find()
     .populate('_pet _category _variant _country');
@@ -37,7 +39,7 @@ const getAllProducts = async (req, res) => {
   });
 
   res.json(data);
-};
+};*/
 
 const getHomeProducts = async (req, res) => {
   const result = await Product
@@ -48,50 +50,67 @@ const getHomeProducts = async (req, res) => {
   res.json(result);
 };
 
+const getAllProducts = async (req, res) => {
+  const {page = 1} = req.query;
+
+  const result = await pagination({
+    Model: Product,
+    page: Number(page),
+    collectionLinks: ['_pet', '_category', '_variant', '_country'],
+  });
+
+  res.json(result);
+};
+
 const getProductsByPet = async (req, res) => {
+  const {page = 1} = req.query;
+  const {idPet} = req.params;
 
-  const {page = 1, limit = 12} = req.query;
-  const {onePet} = req.params;
+  const result = await pagination({
+    Model: Product,
+    page: Number(page),
+    filter: {_pet: idPet},
+    collectionLinks: ['_pet', '_category', '_variant', '_country'],
+  });
 
-  try {
-    const result = await Product.paginate({'pet.code': onePet}, {page, limit});
-    res.json(result);
-  } catch (err) {
-    throw new Error(err);
-  }
+  res.json(result);
 };
 
 const getProductsByCategory = async (req, res) => {
+  const {page = 1} = req.query;
+  const {idCategory} = req.params;
 
-  const {page = 1, limit = 12} = req.query;
-  const {oneCategory} = req.params;
+  const result = await pagination({
+    Model: Product,
+    page: Number(page),
+    filter: {_category: idCategory},
+    collectionLinks: ['_pet', '_category', '_variant', '_country'],
+  });
 
-  try {
-    const result = await Product.paginate({'category.code': oneCategory}, {page, limit});
-    res.json(result);
-  } catch (err) {
-    throw new Error(err);
-  }
+  res.json(result);
 };
 
 const getProductsByTypeProduct = async (req, res) => {
+  const {page = 1} = req.query;
+  const {idVariant} = req.params;
 
-  const {page = 1, limit = 12} = req.query;
-  const {oneProductType} = req.params;
+  const result = await pagination({
+    Model: Product,
+    page: Number(page),
+    filter: {_variant: idVariant},
+    collectionLinks: ['_pet', '_category', '_variant', '_country'],
+  });
 
-  try {
-    const result = await Product.paginate({'productType.code': oneProductType}, {page, limit});
-    res.json(result);
-  } catch (err) {
-    throw new Error(err);
-  }
+  res.json(result);
 };
 
-const getProductDetails = async (req, res, next) => {
-  const {oneProduct} = req.params;
+const getProductDetails = async (req, res) => {
+  const {idProduct} = req.params;
 
   try {
-    const result = await Product.findById(oneProduct);
+    const result = await Product
+      .findById(idProduct)
+      .populate('_pet _category _variant _country');
     res.json(result);
   } catch (err) {
     throw new Error(err);
@@ -101,8 +120,8 @@ const getProductDetails = async (req, res, next) => {
 module.exports = {
   getAllProducts: ctrlErrorHandler(getAllProducts),
   getHomeProducts: ctrlErrorHandler(getHomeProducts),
-  getProductsByPet,
-  getProductsByCategory,
-  getProductsByTypeProduct,
-  getProductDetails,
+  getProductsByPet: ctrlErrorHandler(getProductsByPet),
+  getProductsByCategory: ctrlErrorHandler(getProductsByCategory),
+  getProductsByTypeProduct: ctrlErrorHandler(getProductsByTypeProduct),
+  getProductDetails: ctrlErrorHandler(getProductDetails),
 };
