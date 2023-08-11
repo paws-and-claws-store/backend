@@ -35,7 +35,7 @@ _Присутня пагінація_
 
 ### Перелік всіх продуктів для тварин `:idPet`
 
-- `/api/poducts/pets/:idPet`
+- `/api/products/pets/:idPet`
 - `/api/products/pets/:idPet?page=<номер сторінки>`
 
 **Тварини:**
