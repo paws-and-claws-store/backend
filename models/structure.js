@@ -9,6 +9,14 @@ const petSchema = new Schema({
     type: String,
     required: true,
   },
+  button_en: {
+    type: String,
+    required: true,
+  },
+  button_ua: {
+    type: String,
+    required: true,
+  },
   code: {
     type: String,
     required: true,
