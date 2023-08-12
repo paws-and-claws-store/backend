@@ -1,5 +1,5 @@
 const {Product} = require('../models/product');
-const {ctrlErrorHandler, pagination} = require('../helpers');
+const {ctrlErrorHandler, pagination, sortWeights, sortWeightsOne} = require('../helpers');
 
 const {LIMIT_PAGINATION} = require('../config/consts');
 
@@ -46,8 +46,9 @@ const getHomeProducts = async (req, res) => {
     .find({}, {min_sale: 0})
     .populate('_pet _category _variant _country')
     .sort({min_sale: 1})
-    .limit(12);
-  res.json(result);
+    .limit(LIMIT_PAGINATION);
+
+  res.json(sortWeights(result));
 };
 
 const getAllProducts = async (req, res) => {
@@ -59,7 +60,7 @@ const getAllProducts = async (req, res) => {
     collectionLinks: ['_pet', '_category', '_variant', '_country'],
   });
 
-  res.json(result);
+  res.json({...result, docs: sortWeights(result.docs)});
 };
 
 const getProductsByPet = async (req, res) => {
@@ -73,7 +74,7 @@ const getProductsByPet = async (req, res) => {
     collectionLinks: ['_pet', '_category', '_variant', '_country'],
   });
 
-  res.json(result);
+  res.json({...result, docs: sortWeights(result.docs)});
 };
 
 const getProductsByCategory = async (req, res) => {
@@ -87,7 +88,7 @@ const getProductsByCategory = async (req, res) => {
     collectionLinks: ['_pet', '_category', '_variant', '_country'],
   });
 
-  res.json(result);
+  res.json({...result, docs: sortWeights(result.docs)});
 };
 
 const getProductsByTypeProduct = async (req, res) => {
@@ -101,20 +102,17 @@ const getProductsByTypeProduct = async (req, res) => {
     collectionLinks: ['_pet', '_category', '_variant', '_country'],
   });
 
-  res.json(result);
+  res.json({...result, docs: sortWeights(result.docs)});
 };
 
 const getProductDetails = async (req, res) => {
   const {idProduct} = req.params;
 
-  try {
-    const result = await Product
-      .findById(idProduct)
-      .populate('_pet _category _variant _country');
-    res.json(result);
-  } catch (err) {
-    throw new Error(err);
-  }
+  const result = await Product
+    .findById(idProduct, '-min_sale')
+    .populate('_pet _category _variant _country');
+    
+  res.json(sortWeightsOne(result));
 }
 
 module.exports = {
