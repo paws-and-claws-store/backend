@@ -11,7 +11,7 @@ module.exports = async ({
 
   try {
     data.docs = await Model
-      .find(filter)
+      .find(filter, '-min_sale')
       .skip((page - 1) * limit)
       .limit(limit)
       .populate(collectionLinks.join(' '));
