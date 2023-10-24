@@ -11,7 +11,7 @@ const ctlr = require("../../controllers/Product");
 router.get("/", ctlr.getHomeProducts);
 
 // Перелік всіх продуктів
-router.get("/allItems", isValidId, ctlr.getAllProducts);
+router.get("/allItems", ctlr.getAllProducts);
 
 // Перелік всіх продуктів, для тварин :idPet
 router.get("/pets/:idPet", isValidId, ctlr.getProductsByPet);
