@@ -3,9 +3,11 @@ const router = Router();
 
 const ctrlProducts = require("../../controllers/products");
 
-const { isValidId } = require("../../middlewares");
+const { isValidId, validateBody } = require("../../middlewares");
 
 const ctlr = require("../../controllers/Product");
+
+const { FindByNameOrBrandSchema } = require("../../models/product");
 
 // Перелік продуктів на стартову сторінку
 router.get("/", ctlr.getHomeProducts);
@@ -25,6 +27,7 @@ router.get("/product_types/:idVariant", isValidId, ctlr.getProductsByTypeProduct
 // Повертає дані для одного продукту :idProduct
 router.get("/:idProduct", isValidId, ctlr.getProductDetails);
 
-router.get("/getProductByName/pets", ctlr.getProductByName);
+// Пошук по назві або бренду товара
+router.get("/getProductByName/card", ctlr.getProductByName);
 
 module.exports = router;
