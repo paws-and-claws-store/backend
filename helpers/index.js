@@ -4,4 +4,5 @@ module.exports = {
   sortWeights: require("./sortWeights").sortWeights,
   sortWeightsOne: require("./sortWeights").sortWeightsOne,
   HttpError: require("./HttpError"),
+  sort: require("./sort"),
 };
