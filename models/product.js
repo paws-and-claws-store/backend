@@ -94,6 +94,7 @@ const FindByNameOrBrandSchema = Joi.object({
     "string.min": "Мінімальна кількість символів 3",
     "string.max": "Максимальна кількість символів 255",
   }),
+  sortBy: Joi.string(),
 });
 
 module.exports = {

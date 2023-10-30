@@ -1,9 +1,9 @@
 const { Product } = require("../../models/product");
 const { FindByNameOrBrandSchema } = require("../../models/product");
-const { HttpError, pagination } = require("../../helpers");
+const { HttpError, pagination, sort, sortWeights } = require("../../helpers");
 
 const getProductByName = async (req, res) => {
-  const { productName, brand, page = 1 } = req.query;
+  const { productName, brand, page = 1, sortBy } = req.query;
 
   const validationResult = FindByNameOrBrandSchema.validate(req.query);
 
@@ -35,6 +35,7 @@ const getProductByName = async (req, res) => {
   res.json({
     code: 200,
     ...results,
+    docs: sort(sortWeights(results.docs), sortBy),
   });
 };
 

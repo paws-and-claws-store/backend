@@ -1,8 +1,8 @@
 const { Product } = require("../../models/product");
-const { pagination, sortWeights } = require("../../helpers");
+const { pagination, sort } = require("../../helpers");
 
 const getProductsByCategory = async (req, res) => {
-  const { page = 1 } = req.query;
+  const { page = 1, sortBy } = req.query;
   const { idCategory } = req.params;
 
   const result = await pagination({
@@ -12,7 +12,7 @@ const getProductsByCategory = async (req, res) => {
     collectionLinks: ["_pet", "_category", "_variant", "_country"],
   });
 
-  res.json({ ...result, docs: sortWeights(result.docs) });
+  res.json({ ...result, docs: sort(result.docs, sortBy) });
 };
 
 module.exports = getProductsByCategory;

@@ -1,8 +1,9 @@
 const { Product } = require("../../models/product");
-const { pagination, sortWeights } = require("../../helpers");
+const { pagination, sort } = require("../../helpers");
 
 const getAllProducts = async (req, res) => {
-  const { page = 1 } = req.query;
+  const { page = 1, sortBy } = req.query;
+  console.log("soaspaj", sortBy);
 
   const result = await pagination({
     Model: Product,
@@ -10,7 +11,7 @@ const getAllProducts = async (req, res) => {
     collectionLinks: ["_pet", "_category", "_variant", "_country"],
   });
 
-  res.json({ ...result, docs: sortWeights(result.docs) });
+  res.json({ ...result, docs: sort(result.docs, sortBy) });
 };
 
 module.exports = getAllProducts;
