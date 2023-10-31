@@ -76,12 +76,9 @@ _Присутня пагінація_
 
 ### Пошук продуктів по ключовому слову
 
-- `/api/products/getProductByName/card?productName=CANAGAN`
-- `/api/products/getProductByName/card?brand=CANAGAN`
+- `/api/products/getProductByName/card?sortBy=CANAGAN`
 
-- `productName` (стрічка, обов'язково): назва продукту . Не менше 3 і не більше 230 символів
-
-- `brand` (стрічка, обов'язково): бренд продукту . Не менше 3 і не більше 230 символів
+- `sortBy` (стрічка, обов'язково): пошук бо назві або бренду товара . Не менше 3 і не більше 230 символів
 
 _Присутня пагінація_
 

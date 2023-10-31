@@ -86,14 +86,11 @@ productSchema.plugin(mongoosePaginate);
 const Product = model("product", productSchema);
 
 const FindByNameOrBrandSchema = Joi.object({
-  productName: Joi.string().min(3).max(230).messages({
+  findBy: Joi.string().min(3).max(230).messages({
     "string.min": "Мінімальна кількість символів 3",
     "string.max": "Максимальна кількість символів 255",
   }),
-  brand: Joi.string().min(3).max(230).messages({
-    "string.min": "Мінімальна кількість символів 3",
-    "string.max": "Максимальна кількість символів 255",
-  }),
+
   sortBy: Joi.string(),
 });
 
