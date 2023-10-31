@@ -3,15 +3,15 @@ const { FindByNameOrBrandSchema } = require("../../models/product");
 const { HttpError, pagination, sort, sortWeights } = require("../../helpers");
 
 const getProductByName = async (req, res) => {
-  const { productName, brand, page = 1, sortBy } = req.query;
+  const { findBy, page = 1, sortBy } = req.query;
+
+  const toLowerCase = findBy.toLowerCase();
 
   const validationResult = FindByNameOrBrandSchema.validate(req.query);
 
   if (validationResult.error) {
     throw HttpError(400, validationResult.error);
   }
-  const productNameLower = productName ? productName.toLowerCase() : undefined;
-  const brandLower = brand ? brand.toLowerCase() : undefined;
 
   // const result = await Product.find({
   //   $or: [
@@ -25,8 +25,8 @@ const getProductByName = async (req, res) => {
     page: Number(page),
     filter: {
       $or: [
-        { productName: productNameLower && new RegExp(productNameLower, "i") },
-        { brand: brandLower && new RegExp(brandLower, "i") },
+        { productName: toLowerCase && new RegExp(toLowerCase, "i") },
+        { brand: toLowerCase && new RegExp(toLowerCase, "i") },
       ],
     },
     collectionLinks: ["_pet", "_category", "_variant", "_country"],
