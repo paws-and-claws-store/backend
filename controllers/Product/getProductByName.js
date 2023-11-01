@@ -27,6 +27,7 @@ const getProductByName = async (req, res) => {
       $or: [
         { productName: toLowerCase && new RegExp(toLowerCase, "i") },
         { brand: toLowerCase && new RegExp(toLowerCase, "i") },
+        { shortDescription: toLowerCase && new RegExp(toLowerCase, "i") },
       ],
     },
     collectionLinks: ["_pet", "_category", "_variant", "_country"],
