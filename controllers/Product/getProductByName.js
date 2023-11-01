@@ -37,6 +37,9 @@ const getProductByName = async (req, res) => {
     collectionLinks: ["_pet", "_category", "_variant", "_country"],
   });
 
+  if (results.docs.length === 0) {
+    throw HttpError(400, "Product not found");
+  }
   res.json({
     code: 200,
     ...results,
