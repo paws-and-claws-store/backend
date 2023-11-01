@@ -28,6 +28,6 @@ router.get("/product_types/:idVariant", isValidId, ctlr.getProductsByTypeProduct
 router.get("/:idProduct", isValidId, ctlr.getProductDetails);
 
 // Пошук по назві або бренду товара
-router.get("/getProductByName/card", ctlr.getProductByName);
+router.get("/searchByKeyword/card", ctlr.getProductByName);
 
 module.exports = router;
