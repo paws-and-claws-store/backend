@@ -5,6 +5,10 @@ const { HttpError, pagination, sort, sortWeights } = require("../../helpers");
 const getProductByName = async (req, res) => {
   const { findBy, page = 1, sortBy } = req.query;
 
+  if (!findBy) {
+    throw HttpError(400);
+  }
+
   const toLowerCase = findBy.toLowerCase();
 
   const validationResult = FindByNameOrBrandSchema.validate(req.query);
