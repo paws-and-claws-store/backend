@@ -7,6 +7,7 @@ const getProductsByCategory = require("./getProductsByCategory");
 const getProductsByTypeProduct = require("./getProductsByTypeProduct");
 const getProductDetails = require("./getProductDetails");
 const getProductByName = require("./getProductByName");
+const checkBasket = require("./checkBasket");
 
 module.exports = {
   getHomeProducts: ctrlErrorHandler(getHomeProducts),
@@ -16,4 +17,5 @@ module.exports = {
   getProductsByTypeProduct: ctrlErrorHandler(getProductsByTypeProduct),
   getProductDetails: ctrlErrorHandler(getProductDetails),
   getProductByName: ctrlErrorHandler(getProductByName),
+  checkBasket: ctrlErrorHandler(checkBasket),
 };

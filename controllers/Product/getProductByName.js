@@ -17,13 +17,6 @@ const getProductByName = async (req, res) => {
     throw HttpError(400, validationResult.error);
   }
 
-  // const result = await Product.find({
-  //   $or: [
-  //     { productName: productNameLower && new RegExp(productNameLower, "i") },
-  //     { brand: brandLower && new RegExp(brandLower, "i") },
-  //   ],
-  // });
-
   const results = await pagination({
     Model: Product,
     page: Number(page),
@@ -40,6 +33,7 @@ const getProductByName = async (req, res) => {
   if (results.docs.length === 0) {
     throw HttpError(400, "Product not found");
   }
+
   res.json({
     code: 200,
     ...results,

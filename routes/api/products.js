@@ -30,4 +30,6 @@ router.get("/:idProduct", isValidId, ctlr.getProductDetails);
 // Пошук по назві або бренду товара
 router.get("/searchByKeyword/card", ctlr.getProductByName);
 
+router.post("/checkBasket/card", ctlr.checkBasket);
+
 module.exports = router;
