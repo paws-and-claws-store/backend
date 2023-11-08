@@ -25,11 +25,13 @@ router.get("/categories/:idCategory", isValidId, ctlr.getProductsByCategory);
 router.get("/product_types/:idVariant", isValidId, ctlr.getProductsByTypeProduct);
 
 // Повертає дані для одного продукту :idProduct
-router.get("/:idProduct", isValidId, ctlr.getProductDetails);
+router.get("/:idProduct", ctlr.getProductDetails);
 
 // Пошук по назві або бренду товара
 router.get("/searchByKeyword/card", ctlr.getProductByName);
 
 router.post("/checkBasket/card", ctlr.checkBasket);
+
+router.post("/buyProduct", ctlr.buyProduct);
 
 module.exports = router;
