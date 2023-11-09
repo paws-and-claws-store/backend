@@ -1,6 +1,5 @@
 const { Product } = require("../../models/product");
 const { pagination, sort, HttpError } = require("../../helpers");
-const e = require("cors");
 
 const checkBasket = async (req, res) => {
   const { array } = req.body;
@@ -13,7 +12,7 @@ const checkBasket = async (req, res) => {
 
       const obj = result.items.find((item) => item.productCode === el.productCode);
 
-      if (obj.count < el.count) {
+      if (obj.count < el.cardСount) {
         // throw HttpError(400, `Is not enouht this product ${el.productCode}`);
         errorCods.push(obj);
       } else {
