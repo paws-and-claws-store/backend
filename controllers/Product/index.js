@@ -9,6 +9,7 @@ const getProductDetails = require("./getProductDetails");
 const getProductByName = require("./getProductByName");
 const checkBasket = require("./checkBasket");
 const buyProduct = require("./buyProduct");
+const copyGetProductDetails = require("./copyGetProductDetails");
 
 module.exports = {
   getHomeProducts: ctrlErrorHandler(getHomeProducts),
@@ -20,4 +21,5 @@ module.exports = {
   getProductByName: ctrlErrorHandler(getProductByName),
   checkBasket: ctrlErrorHandler(checkBasket),
   buyProduct: ctrlErrorHandler(buyProduct),
+  copyGetProductDetails: ctrlErrorHandler(copyGetProductDetails),
 };
