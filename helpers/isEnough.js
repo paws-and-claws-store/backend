@@ -1,14 +1,18 @@
 const { Product } = require("../models/product");
+const HttpError = require("./HttpError");
 
 const isEnought = async (req, res) => {
   const { array } = req.body;
   const results = [];
-
   const errorCods = [];
 
   await Promise.all(
     array.map(async (el) => {
       const result = await Product.findOne({ "items.productCode": el.productCode });
+
+      if (!result) {
+        throw HttpError(400, "The product not found");
+      }
 
       const obj = result.items.find((item) => item.productCode === el.productCode);
 
@@ -20,15 +24,10 @@ const isEnought = async (req, res) => {
     })
   );
 
-  if (errorCods.length > 0) {
-    return res.status(400).json({
-      code: 400,
-      data: results,
-      errors: errorCods,
-    });
-  }
-
-  return results;
+  return {
+    data: results,
+    errors: errorCods,
+  };
 };
 
 module.exports = isEnought;
