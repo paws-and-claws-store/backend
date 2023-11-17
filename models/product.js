@@ -90,6 +90,10 @@ const FindByNameOrBrandSchema = Joi.object({
     "string.min": "Мінімальна кількість символів 3",
     "string.max": "Максимальна кількість символів 255",
   }),
+  page: Joi.number().integer().messages({
+    "number.base": 'The "page" field must be a number',
+    "number.integer": 'The "page" field must be an integer',
+  }),
 
   sortBy: Joi.string(),
 });
