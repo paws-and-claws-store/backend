@@ -1,34 +1,20 @@
-// const sort = (product, sortBy) => {
-//   let data = product.map((el) => el);
-
-//   switch (sortBy) {
-//     case "expensive":
-//       data = data.sort((a, b) => b.items[0].price - a.items[0].price);
-//       break;
-//     case "cheap":
-//       data = data.sort((a, b) => a.items[0].price - b.items[0].price);
-//       break;
-
-//     default:
-//       break;
-//   }
-
-//   return data;
-
-//   if (sortBy === "expensive") {
-//     return data.sort((a, b) => a.items[0].price - b.items[0].price);
-//   } else if (sortBy === "cheap") {
-//     return product;
-//   } else {
-//   }
-
-//   return product.map((el) => el).sort((a, b) => a.items[0].price - b.items[0].price);
-//   //   return data.items.sort((a, b) => a.price - b.price);
-// };
 const { sortWeights } = require("./sortWeights");
+
+const sortCount = (data) => {
+  return (data = data.sort((a, b) => {
+    if (a.items[0].count === 0 && b.items[0].count !== 0) {
+      return 1; // Перший елемент має count = 0, другий - ні
+    }
+    if (a.items[0].count !== 0 && b.items[0].count === 0) {
+      return -1; // Другий елемент має count = 0, перший - ні
+    }
+    return 0; // Залиште їх в тому ж порядку, якщо обидва мають count = 0 або не мають
+  }));
+};
 
 const sort = (product, sortBy) => {
   const sortedWeight = sortWeights(product);
+
   let data = sortedWeight.map((el) => el);
 
   switch (sortBy) {
@@ -64,7 +50,9 @@ const sort = (product, sortBy) => {
       break;
   }
 
-  return data;
+  const results = sortCount(data);
+
+  return results;
 };
 
 module.exports = sort;
