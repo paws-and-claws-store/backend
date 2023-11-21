@@ -36,4 +36,6 @@ router.post("/buyProduct", ctlr.buyProduct);
 
 router.get("/copy/:idProduct", ctlr.copyGetProductDetails);
 
+router.get("/test/test", ctlr.test);
+
 module.exports = router;

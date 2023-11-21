@@ -10,9 +10,10 @@ const getProductsByPet = async (req, res) => {
     page: Number(page),
     filter: { _pet: idPet },
     collectionLinks: ["_pet", "_category", "_variant", "_country"],
+    sortBy,
   });
 
-  res.json({ ...result, docs: sort(result.docs, sortBy) });
+  res.json({ ...result });
 };
 
 module.exports = getProductsByPet;

@@ -22,4 +22,5 @@ module.exports = {
   checkBasket: ctrlErrorHandler(checkBasket),
   buyProduct: ctrlErrorHandler(buyProduct),
   copyGetProductDetails: ctrlErrorHandler(copyGetProductDetails),
+  test: ctrlErrorHandler(require("./test")),
 };
