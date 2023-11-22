@@ -9,7 +9,7 @@ const getHomeProducts = async (req, res) => {
     .populate("_pet _category _variant _country")
     .limit(LIMIT_PAGINATION);
 
-  res.json(sortWeights(result));
+  res.json(sort(result));
 };
 
 module.exports = getHomeProducts;
