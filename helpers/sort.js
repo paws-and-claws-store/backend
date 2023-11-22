@@ -6,16 +6,17 @@ const sort = (product, sortBy) => {
   let data = sortedWeight.map((el) => el);
 
   if (!sortBy) {
+    console.log("log");
     // Если sortBy не передан, сортируем так, чтобы товары без count > 0 были в конце
     data = data.sort((a, b) => {
       const hasCountA = a.items.some((item) => item.count > 0);
       const hasCountB = b.items.some((item) => item.count > 0);
 
       if (hasCountA && !hasCountB) {
-        return -1; // Первый товар имеет count > 0, второй - нет
+        return -1;
       }
       if (!hasCountA && hasCountB) {
-        return 1; // Второй товар имеет count > 0, первый - нет
+        return 1;
       }
 
       return 0;
@@ -29,10 +30,10 @@ const sort = (product, sortBy) => {
       case "expensive":
         data = data.sort((a, b) => {
           if (a.items.some((item) => item.count > 0) && b.items.every((item) => item.count === 0)) {
-            return -1; // Первый товар имеет count > 0, второй - нет
+            return -1;
           }
           if (a.items.every((item) => item.count === 0) && b.items.some((item) => item.count > 0)) {
-            return 1; // Второй товар имеет count > 0, первый - нет
+            return 1;
           }
 
           const priceA = a.items[0].sale || a.items[0].price;
@@ -44,10 +45,10 @@ const sort = (product, sortBy) => {
       case "cheap":
         data = data.sort((a, b) => {
           if (a.items.some((item) => item.count > 0) && b.items.every((item) => item.count === 0)) {
-            return -1; // Первый товар имеет count > 0, второй - нет
+            return -1;
           }
           if (a.items.every((item) => item.count === 0) && b.items.some((item) => item.count > 0)) {
-            return 1; // Второй товар имеет count > 0, первый - нет
+            return 1;
           }
 
           const priceA = a.items[0].sale || a.items[0].price;
