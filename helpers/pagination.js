@@ -1,4 +1,5 @@
-const {LIMIT_PAGINATION} = require('../config/consts');
+const sort = require("./sort");
+const { LIMIT_PAGINATION } = require("../config/consts");
 
 module.exports = async ({
   Model,
@@ -6,15 +7,18 @@ module.exports = async ({
   page = 1,
   limit = LIMIT_PAGINATION,
   collectionLinks = [],
+  sortBy,
 }) => {
   const data = {};
 
   try {
-    data.docs = await Model
-      .find(filter, '-min_sale')
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .populate(collectionLinks.join(' '));
+    const result = await Model.find(filter, "-min_sale").populate(collectionLinks.join(" "));
+
+    const sortedResult = sort(result, sortBy);
+
+    const paginatedResult = sortedResult.slice((page - 1) * limit, page * limit);
+
+    data.docs = paginatedResult;
 
     data.totalDocs = await Model.count(filter);
     data.limit = limit;

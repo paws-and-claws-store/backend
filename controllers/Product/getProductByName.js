@@ -1,7 +1,6 @@
 const { Product } = require("../../models/product");
 const { FindByNameOrBrandSchema } = require("../../models/product");
 const { HttpError, pagination, sort, sortWeights } = require("../../helpers");
-const lodash = require("lodash");
 
 const getProductByName = async (req, res) => {
   const { findBy, page = 1, sortBy } = req.query;
@@ -12,11 +11,12 @@ const getProductByName = async (req, res) => {
     throw HttpError(400, "Query parameter 'findBy' is required");
   }
 
+  // Закодування символів в findBy
+
   // Розкодування параметра findBy
   const decodedFindBy = decodeURIComponent(findBy);
 
-  const toLowerCase = lodash.toLower(decodedFindBy);
-  console.log("toLowerCase:", toLowerCase);
+  const toLowerCase = decodedFindBy.toLocaleLowerCase();
 
   const validationResult = FindByNameOrBrandSchema.validate(req.query);
 
@@ -27,6 +27,7 @@ const getProductByName = async (req, res) => {
   const results = await pagination({
     Model: Product,
     page: Number(page),
+    sortBy,
     filter: {
       $or: [
         { productName: toLowerCase && new RegExp(escapeRegExp(toLowerCase), "i") },
@@ -37,14 +38,15 @@ const getProductByName = async (req, res) => {
     collectionLinks: ["_pet", "_category", "_variant", "_country"],
   });
 
-  if (results.docs.length === 0) {
-    throw HttpError(400, "Product not found");
-  }
+  // if (results.docs.length === 0) {
+  //   throw HttpError(400, "Product not found");
+  // }
 
   res.json({
     code: 200,
     ...results,
-    docs: sort(sortWeights(results.docs), sortBy),
+    docs: results.docs,
+    sortBy,
   });
 };
 
