@@ -42,10 +42,6 @@ const sortWe = (arr) => {
       }
     });
 
-    console.log("saled:", saled);
-    console.log("enable:", enable);
-    console.log("disable:", disable);
-
     item.items = [
       ...saled.sort((a, b) => a.size - b.size),
       ...enable.sort((a, b) => a.size - b.size),
@@ -62,7 +58,7 @@ const sortWeightsOne = (item) => {
   const disable = [];
 
   item.items.forEach((weight) => {
-    if (weight.sale) {
+    if (weight.sale && weight.count > 0) {
       saled.push(weight);
     } else if (weight.count > 0) {
       enable.push(weight);
