@@ -1,13 +1,13 @@
-const { sortWeights } = require("./sortWeights");
+const { sortWeights, sortWe } = require("./sortWeights");
 
 const sort = (product, sortBy) => {
-  const sortedWeight = sortWeights(product);
+  const sortedWeight = sortWe(product);
 
   let data = sortedWeight.map((el) => el);
 
   if (!sortBy) {
     console.log("log");
-    // Если sortBy не передан, сортируем так, чтобы товары без count > 0 были в конце
+
     data = data.sort((a, b) => {
       const hasCountA = a.items.some((item) => item.count > 0);
       const hasCountB = b.items.some((item) => item.count > 0);

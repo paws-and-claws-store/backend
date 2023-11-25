@@ -6,13 +6,12 @@ const sortWeights = (product) => {
   return product.map((el) => {
     el.items.sort((a, b) => {
       if (a.count === 0 && b.count !== 0) {
-        return 1; // Продукт A имеет count = 0, а продукт B - нет, поэтому A должен быть в конце
+        return 1;
       }
       if (a.count !== 0 && b.count === 0) {
-        return -1; // Продукт B имеет count = 0, а продукт A - нет, поэтому B должен быть в конце
+        return -1;
       }
 
-      // Если оба продукта имеют count = 0 или count > 0, сортировка по убыванию size
       return a.size - b.size;
     });
 
@@ -20,14 +19,21 @@ const sortWeights = (product) => {
   });
 };
 
+const sor = (data) => {
+  return data.map((el) => {
+    el.items.forEach((weight) => {});
+  });
+};
+
 const sortWe = (arr) => {
   return arr.map((item) => {
     const saled = [];
+
     const enable = [];
     const disable = [];
 
     item.items.forEach((weight) => {
-      if (weight.sale) {
+      if (weight.sale && weight.count > 0) {
         saled.push(weight);
       } else if (weight.count > 0) {
         enable.push(weight);
@@ -35,6 +41,10 @@ const sortWe = (arr) => {
         disable.push(weight);
       }
     });
+
+    console.log("saled:", saled);
+    console.log("enable:", enable);
+    console.log("disable:", disable);
 
     item.items = [
       ...saled.sort((a, b) => a.size - b.size),
