@@ -81,3 +81,5 @@ module.exports = {
   sortWeightsOne,
   sortWe,
 };
+
+console.log();
