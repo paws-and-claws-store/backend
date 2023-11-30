@@ -1,13 +1,39 @@
-const sortWeights = (arr) => {
-  
-  return arr.map(item => {
+// sortWeights.js
 
+// sortWeights.js
+
+const sortWeights = (product) => {
+  return product.map((el) => {
+    el.items.sort((a, b) => {
+      if (a.count === 0 && b.count !== 0) {
+        return 1;
+      }
+      if (a.count !== 0 && b.count === 0) {
+        return -1;
+      }
+
+      return a.size - b.size;
+    });
+
+    return el;
+  });
+};
+
+const sor = (data) => {
+  return data.map((el) => {
+    el.items.forEach((weight) => {});
+  });
+};
+
+const sortWe = (arr) => {
+  return arr.map((item) => {
     const saled = [];
+
     const enable = [];
     const disable = [];
-    
-    item.items.forEach(weight => {
-      if (weight.sale) {
+
+    item.items.forEach((weight) => {
+      if (weight.sale && weight.count > 0) {
         saled.push(weight);
       } else if (weight.count > 0) {
         enable.push(weight);
@@ -27,13 +53,12 @@ const sortWeights = (arr) => {
 };
 
 const sortWeightsOne = (item) => {
-
   const saled = [];
   const enable = [];
   const disable = [];
 
-  item.items.forEach(weight => {
-    if (weight.sale) {
+  item.items.forEach((weight) => {
+    if (weight.sale && weight.count > 0) {
       saled.push(weight);
     } else if (weight.count > 0) {
       enable.push(weight);
@@ -54,4 +79,5 @@ const sortWeightsOne = (item) => {
 module.exports = {
   sortWeights,
   sortWeightsOne,
+  sortWe,
 };
