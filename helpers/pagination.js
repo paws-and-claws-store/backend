@@ -34,7 +34,12 @@ module.exports = async ({
       },
       {
         $match: {
-          'items.actualPrice': { $gte: Number(minPrice), $lte: Number(maxPrice) }, // Фильтр по цене actualPrice
+          $and: [
+            {
+              'items.actualPrice': { $gte: Number(minPrice), $lte: Number(maxPrice) }, // Фильтр по цене actualPrice
+            },
+            filter,
+          ],
         },
       },
       {
