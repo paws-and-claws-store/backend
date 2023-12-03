@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const productsRouter = require("./routes/api/products");
 const structureRouter = require("./routes/api/structure");
+const authRouter = require("./routes/api/auth");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/products", productsRouter);
 app.use("/api/structure", structureRouter);
+app.use("/api/auth", authRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
