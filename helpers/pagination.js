@@ -9,7 +9,7 @@ module.exports = async ({
   collectionLinks = [],
   sortBy = 'cheap', // this is required field for correct using filter price
   minPrice = 0,
-  maxPrice = 10000000,
+  maxPrice = 10000000000,
   aggregate,
 }) => {
   const data = {};
@@ -23,6 +23,7 @@ module.exports = async ({
       },
       {
         $addFields: {
+          'items.originalId': { $toString: '$_id' }, // Преобразуем _id в строку и сохраняем в новом поле items.originalId
           'items.actualPrice': {
             $cond: {
               if: { $gte: ['$items.sale', 0] }, // Если есть распродажная цена
@@ -45,8 +46,7 @@ module.exports = async ({
       {
         $group: {
           _id: '$_id',
-          // totalItems: { $sum: 1 },
-          productName: { $first: '$productName' }, // Пример полей, которые могут быть в результате
+          productName: { $first: '$productName' },
           brand: { $first: '$brand' },
           shortDescription: { $first: '$shortDescription' },
           fullDescription: { $first: '$fullDescription' },
@@ -59,30 +59,19 @@ module.exports = async ({
           _variant: { $first: '$_variant' },
           _country: { $first: '$_country' },
           updatedAt: { $first: '$updatedAt' },
-          items: { $push: '$items' }, // Собираем items обратно в массив
+          items: {
+            $push: {
+              _id: '$items.originalId', // Присваиваем сохраненное значение _id из items.originalId
+              size: '$items.size', // Продолжаем сохранять другие поля items
+              price: '$items.price',
+              count: '$items.count',
+              productCode: '$items.productCode',
+              actulaPrice: '$items.actualPrice',
+              sale: '$items.sale',
+            },
+          },
         },
       },
-      // {
-      //   $project: {
-      //     totalItems: 1,
-      //     productName: 1,
-      //     brand: 1,
-      //     shortDescription: 1,
-      //     fullDescription: 1,
-      //     mainImage: 1,
-      //     images: 1,
-      //     favorite: 1,
-      //     reviews: 1,
-      //     _pet: 1,
-      //     _category: 1,
-      //     _variant: 1,
-      //     _country: 1,
-      //     updatedAt: 1,
-      //     items: {
-      //       $slice: ['$items', 0, '$totalItems'], // Оставляем только items, соответствующие общему количеству
-      //     },
-      //   },
-      // },
     ];
 
     if (aggregate) {
