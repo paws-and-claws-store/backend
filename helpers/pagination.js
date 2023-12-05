@@ -66,7 +66,7 @@ module.exports = async ({
               price: '$items.price',
               count: '$items.count',
               productCode: '$items.productCode',
-              actulaPrice: '$items.actualPrice',
+              actualPrice: '$items.actualPrice',
               sale: '$items.sale',
             },
           },
