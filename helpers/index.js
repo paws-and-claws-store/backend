@@ -7,4 +7,5 @@ module.exports = {
   sort: require("./sort"),
   isEnough: require("./isEnough"),
   sortWe: require("./sortWeights").sortWe,
+  hendleMongooseError: require("./hendleMongooseError"),
 };
