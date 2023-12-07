@@ -6,8 +6,6 @@ const sort = (product, sortBy) => {
   let data = sortedWeight.map((el) => el);
 
   if (!sortBy) {
-    console.log("log");
-
     data = data.sort((a, b) => {
       const hasCountA = a.items.some((item) => item.count > 0);
       const hasCountB = b.items.some((item) => item.count > 0);

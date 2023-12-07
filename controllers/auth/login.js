@@ -4,37 +4,36 @@ const { User } = require("../../models/user");
 const { HttpError } = require("../../helpers");
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
-const register = async (req, res) => {
-  const { name, email, password } = req.body;
+const login = async (req, res) => {
+  const { email, password } = req.body;
 
   const user = await User.findOne({ email });
 
-  if (user) {
-    throw HttpError(409, "Email already in use");
+  if (!user) {
+    throw HttpError(400, "User is not defined");
   }
 
-  const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  const passwordCompare = await bcrypt.compare(password, user.password);
+  if (!passwordCompare) {
+    throw HttpError(401, "Email or password is wrong");
+  }
 
   const payload = {
-    id: newUser._id,
+    id: user._id,
   };
 
   const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "5m" });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: "7d" });
 
-  newUser.accessToken = accessToken;
-  newUser.refreshToken = refreshToken;
+  user.accessToken = accessToken;
+  user.refreshToken = refreshToken;
 
-  newUser.save();
+  user.save();
 
-  res.status(201).json({
-    code: 201,
+  res.status(200).json({
+    code: 200,
     data: {
       user: {
-        name,
-        email,
         accessToken,
         refreshToken,
       },
@@ -42,4 +41,4 @@ const register = async (req, res) => {
   });
 };
 
-module.exports = register;
+module.exports = login;
