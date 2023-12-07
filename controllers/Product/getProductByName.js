@@ -1,9 +1,9 @@
-const { Product } = require("../../models/product");
-const { FindByNameOrBrandSchema } = require("../../models/product");
-const { HttpError, pagination, sort, sortWeights } = require("../../helpers");
+const { Product } = require('../../models/product');
+const { FindByNameOrBrandSchema } = require('../../models/product');
+const { HttpError, pagination, sort, sortWeights } = require('../../helpers');
 
 const getProductByName = async (req, res) => {
-  const { findBy, page = 1, sortBy } = req.query;
+  const { findBy, page = 1, sortBy, maxPrice, minPrice } = req.query;
 
   console.log(findBy);
 
@@ -30,12 +30,15 @@ const getProductByName = async (req, res) => {
     sortBy,
     filter: {
       $or: [
-        { productName: toLowerCase && new RegExp(escapeRegExp(toLowerCase), "i") },
-        { brand: toLowerCase && new RegExp(escapeRegExp(toLowerCase), "i") },
-        { shortDescription: toLowerCase && new RegExp(escapeRegExp(toLowerCase), "i") },
+        { productName: toLowerCase && new RegExp(escapeRegExp(toLowerCase), 'i') },
+        { brand: toLowerCase && new RegExp(escapeRegExp(toLowerCase), 'i') },
+        { shortDescription: toLowerCase && new RegExp(escapeRegExp(toLowerCase), 'i') },
       ],
     },
-    collectionLinks: ["_pet", "_category", "_variant", "_country"],
+    collectionLinks: ['_pet', '_category', '_variant', '_country'],
+    aggregate: true,
+    minPrice,
+    maxPrice,
   });
 
   // if (results.docs.length === 0) {
@@ -52,7 +55,7 @@ const getProductByName = async (req, res) => {
 
 // Додана функція для екранування символів у регулярному виразі
 function escapeRegExp(string) {
-  return string.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
+  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 }
 
 module.exports = getProductByName;
