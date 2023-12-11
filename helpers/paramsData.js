@@ -176,6 +176,16 @@ const aggregateParams = (minPrice, maxPrice, filter, sortBy) => {
       $sort: { 'items.size': sortValue }, // Сортировка в зависимости от значения sortValue
     });
   }
+  // Если sortBy не определено, применить сортировку по полю sale
+  if (sortBy === undefined) {
+    // Сортировка внутри items по полю sale
+    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
+      $sort: {
+        'items.sale': 1, // сортировка по возрастанию sale
+        'items.size': 1, // сортировка по возрастанию size
+      },
+    });
+  }
 
   return aggregationPipeline;
 };
