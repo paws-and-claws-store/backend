@@ -19,7 +19,7 @@ module.exports = async ({
     let result;
 
     if (aggregate) {
-      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter));
+      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter, sortBy));
       data.totalDocs = result.length;
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
@@ -28,7 +28,7 @@ module.exports = async ({
     //  const result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
     // const result = await Model.aggregate(aggregateParams);
 
-    const sortedResult = sort(result, sortBy);
+    const sortedResult = sort(result, sortBy, aggregate);
 
     const paginatedResult = sortedResult.slice((page - 1) * limit, page * limit);
 

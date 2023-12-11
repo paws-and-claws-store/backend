@@ -1,16 +1,21 @@
-const { sortWeights, sortWe } = require("./sortWeights");
+const { sortWeights, sortWe } = require('./sortWeights');
 
-const sort = (product, sortBy) => {
-  const sortedWeight = sortWe(product);
+const sort = (product, sortBy, aggregate) => {
+  let data;
 
-  let data = sortedWeight.map((el) => el);
+  if (!aggregate) {
+    const sortedWeight = sortWe(product);
+    data = sortedWeight.map(el => el);
+  } else {
+    data = product;
+  }
 
   if (!sortBy) {
-    console.log("log");
+    console.log('log');
 
     data = data.sort((a, b) => {
-      const hasCountA = a.items.some((item) => item.count > 0);
-      const hasCountB = b.items.some((item) => item.count > 0);
+      const hasCountA = a.items.some(item => item.count > 0);
+      const hasCountB = b.items.some(item => item.count > 0);
 
       if (hasCountA && !hasCountB) {
         return -1;
@@ -27,12 +32,12 @@ const sort = (product, sortBy) => {
 
   if (sortBy) {
     switch (sortBy) {
-      case "expensive":
+      case 'expensive':
         data = data.sort((a, b) => {
-          if (a.items.some((item) => item.count > 0) && b.items.every((item) => item.count === 0)) {
+          if (a.items.some(item => item.count > 0) && b.items.every(item => item.count === 0)) {
             return -1;
           }
-          if (a.items.every((item) => item.count === 0) && b.items.some((item) => item.count > 0)) {
+          if (a.items.every(item => item.count === 0) && b.items.some(item => item.count > 0)) {
             return 1;
           }
 
@@ -42,12 +47,12 @@ const sort = (product, sortBy) => {
           return priceB - priceA;
         });
         break;
-      case "cheap":
+      case 'cheap':
         data = data.sort((a, b) => {
-          if (a.items.some((item) => item.count > 0) && b.items.every((item) => item.count === 0)) {
+          if (a.items.some(item => item.count > 0) && b.items.every(item => item.count === 0)) {
             return -1;
           }
-          if (a.items.every((item) => item.count === 0) && b.items.some((item) => item.count > 0)) {
+          if (a.items.every(item => item.count === 0) && b.items.some(item => item.count > 0)) {
             return 1;
           }
 
