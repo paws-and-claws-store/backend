@@ -1,5 +1,13 @@
-const aggregateParams = (minPrice, maxPrice, filter) => {
-  return [
+const aggregateParams = (minPrice, maxPrice, filter, sortBy) => {
+  let sortValue;
+
+  if (sortBy === 'expensive') {
+    sortValue = -1; // Сортировка по весу от большего к меньшему
+  } else if (sortBy === 'cheap') {
+    sortValue = 1; // Сортировка по весу от меньшему к большему
+  }
+
+  const aggregationPipeline = [
     // поиск данных по oid
     {
       $lookup: {
@@ -60,6 +68,11 @@ const aggregateParams = (minPrice, maxPrice, filter) => {
     // развертывание массивов
     {
       $unwind: '$items', // Разворачиваем массив объектов items
+    },
+    {
+      $match: {
+        'items.count': { $gt: 0 }, // Фильтр для исключения товаров с count: 0
+      },
     },
     {
       $unwind: {
@@ -152,6 +165,29 @@ const aggregateParams = (minPrice, maxPrice, filter) => {
       },
     },
   ];
+
+  // находим и задаем индекс для вставки нужной нам сортировки по весу в массиве $items
+  const indexForWeightSortingAdd =
+    aggregationPipeline.findIndex(obj => obj.$unwind === '$items') + 1;
+
+  // Применяем сортировку только если sortValue определено как нам нужно
+  if (sortValue === 1 || sortValue === -1) {
+    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
+      $sort: { 'items.size': sortValue }, // Сортировка в зависимости от значения sortValue
+    });
+  }
+  // Если sortBy не определено, применить сортировку по полю sale
+  if (sortBy === undefined) {
+    // Сортировка внутри items по полю sale
+    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
+      $sort: {
+        'items.sale': 1, // сортировка по возрастанию sale
+        'items.size': 1, // сортировка по возрастанию size
+      },
+    });
+  }
+
+  return aggregationPipeline;
 };
 
 module.exports = { aggregateParams };
