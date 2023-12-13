@@ -11,6 +11,7 @@ module.exports = async ({
   sortBy = 'cheap', // this fiels is required, beacause load more work uncorrectly response goods the same goods
   minPrice = 0,
   maxPrice = 10000000000,
+  brands, // string of brands, split by comma
   aggregate,
 }) => {
   const data = {};
@@ -19,7 +20,7 @@ module.exports = async ({
     let result;
 
     if (aggregate) {
-      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter, sortBy));
+      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter, sortBy, brands));
       data.totalDocs = result.length;
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
