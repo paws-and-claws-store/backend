@@ -1,5 +1,6 @@
-const sort = require("./sort");
-const { LIMIT_PAGINATION } = require("../config/consts");
+const sort = require('./sort');
+const { LIMIT_PAGINATION } = require('../config/consts');
+const { aggregateParams } = require('./paramsData');
 
 module.exports = async ({
   Model,
@@ -8,19 +9,32 @@ module.exports = async ({
   limit = LIMIT_PAGINATION,
   collectionLinks = [],
   sortBy,
+  minPrice = 0,
+  maxPrice = 10000000000,
+  aggregate,
 }) => {
   const data = {};
 
   try {
-    const result = await Model.find(filter, "-min_sale").populate(collectionLinks.join(" "));
+    let result;
 
-    const sortedResult = sort(result, sortBy);
+    if (aggregate) {
+      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter, sortBy));
+      data.totalDocs = result.length;
+    } else {
+      result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
+      data.totalDocs = await Model.count(filter);
+    }
+    //  const result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
+    // const result = await Model.aggregate(aggregateParams);
+
+    const sortedResult = sort(result, sortBy, aggregate);
 
     const paginatedResult = sortedResult.slice((page - 1) * limit, page * limit);
 
     data.docs = paginatedResult;
-
-    data.totalDocs = await Model.count(filter);
+    // data.totalDocs = result.length;
+    // data.totalDocs = await Model.count(filter);
     data.limit = limit;
     data.totalPages = Math.ceil(data.totalDocs / limit);
     data.page = page;

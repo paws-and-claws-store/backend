@@ -28,6 +28,14 @@
 
   - [Для отримання акуальної кількості товарів](#для-отримання-акуальної-кількості-товарів)
 
+  - [Запити для авторизації](#запитина-на-авторизацію)
+
+    - [Реєстрація](#реєстрація)
+
+- [Запити для авторизації](#запитина-на-авторизацію)
+
+  - [Реєстрація](#реєстрація)
+
 ## Запити для продутків
 
 ### Для стартової сторінки
@@ -438,5 +446,132 @@ POST /api/products/buyProduct
       "count": 5
     }
   ]
+}
+```
+
+## Запитина на авторизацію
+
+### Реєстрація
+
+- `/api/auth/register`
+
+Регулярний вираз для email - /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+Регулярний вираз для password - /^(?=._[a-z])(?=._[A-Z]).{6,}$/
+
+Приклад запиту
+
+```json
+POST /api/auth/register
+
+{
+  "name": "Poly",
+  "email": "poly@gmail.com",
+  "password": "Qwerty123"
+}
+
+
+```
+
+Приклад відповіді
+
+```json
+{
+  "code": 201,
+  "data": {
+    "user": {
+      "name": "Artem",
+      "email": "qwerty@email.com",
+      "accessToken": "Tajkasdkasndjkasndkja",
+      "refreshToken": "fxMxMlqHq4GzPzW_6XSDrTKEd3ZB-9Lsoy3vIkDCdUE0"
+    }
+  }
+}
+```
+
+### Логін
+
+- `/api/auth/login`
+
+Приклад запиту
+
+```json
+POST /api/auth/login
+
+{
+"email": "qwerty@email.com",
+"password": "Qweadadarty"
+}
+
+```
+
+Приклад відповіді
+
+```json
+{
+  "code": 200,
+  "data": {
+    "user": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzllODJlMTJjYTdlYjMxZDllNyIsImlhdCI6MTcwMTg5NjQ3NiwiZXhwIjoxNzAxODk2Nzc2fQ.YoKqbtyuZKA5nvIGMGK21ssrfHTm9dxpClKEQW3Npc0",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzBkNDllODJlMTJjYTdlYjMxZDllNyIsImlhdCI6MTcwMTg3NiwiZXhwIjoxNzAyNTAxMjc2fQ.1ZDRam0FRrZ7Wz9M_JzK5p-Vy8REjJ26vEunPol1MvE"
+    }
+  }
+}
+```
+
+### Вихід
+
+- `/api/auth/logout`
+
+Приклад запиту
+
+In request headers BEARER TOKEN
+
+Приклад відповіді
+
+```json
+{
+  "message": "Logout success"
+}
+```
+
+### Рефреш
+
+- `/api/auth/refresh`
+
+Приклад запиту
+
+```json
+POST /api/auth/refresh
+
+{
+"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzBkNDllODJlMTJjYTdlYjMxZDllNyIsImlhdCI6MTcwMTg5NjQ4OCwiZXhwIjoxNzAyNTAxMjg4fQ.mQkzy8T_egfm8JhAmYX5XeZkRpnNMhKW-E2W-b8"
+}
+
+```
+
+Приклад відповіді
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzBkNDllODJlMTJjYTdlYjMxZDllNyIsImlhdCI6MTcwMTg5NjUwMywiZXhwIjoxNzAxODkAzfQ.u7JfJhPZzk-XfLDkwc1tuzRsjyz9-Nuujv3FHul6OQI",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzBkNDllODJlMTJjYTdlYjMxZDllNyIsImlhdCI6MTcwMTg5NjUwMywiZXhwIjoxNzAyNTAxMzAzfQ.gJFBMQVzWlOUrghMV5L7v3XDWLsGBMiDqYsZI86w"
+}
+```
+
+### На користувача
+
+- `/api/auth/current`
+
+Приклад запиту
+
+In request headers BEARER TOKEN
+
+Приклад відповіді
+
+```json
+{
+  "name": "Artem",
+  "email": "qwerty@email.com"
 }
 ```
