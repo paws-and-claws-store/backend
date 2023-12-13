@@ -8,7 +8,7 @@ module.exports = async ({
   page = 1,
   limit = LIMIT_PAGINATION,
   collectionLinks = [],
-  sortBy,
+  sortBy = 'cheap', // this fiels is required, beacause load more work uncorrectly response goods the same goods
   minPrice = 0,
   maxPrice = 10000000000,
   aggregate,
