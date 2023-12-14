@@ -98,6 +98,7 @@ const FindByNameOrBrandSchema = Joi.object({
   sortBy: Joi.string(),
   minPrice: Joi.string(),
   maxPrice: Joi.string(),
+  brands: Joi.string(),
 });
 
 module.exports = {

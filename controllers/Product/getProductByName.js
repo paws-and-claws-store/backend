@@ -3,7 +3,7 @@ const { FindByNameOrBrandSchema } = require('../../models/product');
 const { HttpError, pagination, sort, sortWeights } = require('../../helpers');
 
 const getProductByName = async (req, res) => {
-  const { findBy, page = 1, sortBy, maxPrice, minPrice } = req.query;
+  const { findBy, page = 1, sortBy, maxPrice, minPrice, brands } = req.query;
 
   console.log(findBy);
 
@@ -39,6 +39,7 @@ const getProductByName = async (req, res) => {
     aggregate: true,
     minPrice,
     maxPrice,
+    brands,
   });
 
   // if (results.docs.length === 0) {
