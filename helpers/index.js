@@ -8,4 +8,5 @@ module.exports = {
   isEnough: require("./isEnough"),
   sortWe: require("./sortWeights").sortWe,
   hendleMongooseError: require("./hendleMongooseError"),
+  sendEmail: require("./sendEmail"),
 };

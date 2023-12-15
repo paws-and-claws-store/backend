@@ -6,4 +6,6 @@ module.exports = {
   getCurrent: ctrlErrorHandler(require("./getCurrent")),
   refresh: ctrlErrorHandler(require("./refresh")),
   logout: ctrlErrorHandler(require("./logout")),
+  verifyEmail: ctrlErrorHandler(require("./verifyEmail")),
+  resendVerifyEmail: ctrlErrorHandler(require("./resendVerifyEmail")),
 };

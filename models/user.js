@@ -29,6 +29,14 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationCode: {
+      type: String,
+      require: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -73,4 +81,12 @@ const refreshSchema = Joi.object({
   refreshToken: Joi.string().required(),
 });
 
-module.exports = { User, registerSchema, loginSchema, refreshSchema };
+const emailSchema = Joi.object({
+  email: Joi.string().required().messages({
+    "string.base": 'The "Email" field must be a string',
+    "string.pattern.base": "Enter a valid email address",
+    "any.required": 'The "Email" field is required',
+  }),
+});
+
+module.exports = { User, registerSchema, loginSchema, refreshSchema, emailSchema };
