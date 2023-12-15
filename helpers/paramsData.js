@@ -1,106 +1,118 @@
-const aggregateParams = (minPrice, maxPrice, filter) => {
-  return [
-    // поиск данных по oid
+const aggregateParams = (minPrice, maxPrice, filter, sortBy, brands) => {
+  let sortValue;
+
+  if (sortBy === 'expensive') {
+    sortValue = -1; // Sorting by weight from larger to smaller
+  } else if (sortBy === 'cheap') {
+    sortValue = 1; // Sorting by weight from smaller to larger
+  }
+
+  const aggregationPipeline = [
     {
       $lookup: {
-        from: 'pets', // Название вашей коллекции с данными о _pet
-        let: { petId: '$_pet' }, // Объявляем переменную для ObjectId из поля _pet
+        from: 'pets', // Collection name with _pet data
+        let: { petId: '$_pet' }, // Variable declaration for ObjectId from the _pet field
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ['$_id', '$$petId'] }, // Находим соответствие ObjectId в коллекции pets
+              $expr: { $eq: ['$_id', '$$petId'] }, // Finding ObjectId match in pets collection
             },
           },
         ],
-        as: 'petData', // Название нового поля, в котором будут храниться данные о _pet
+        as: 'petData', // New field name to store _pet data
       },
     },
     {
       $lookup: {
-        from: 'categories', // Название вашей коллекции с данными о категориях
-        let: { categoryId: '$_category' }, // Объявляем переменную для ObjectId из поля _category
+        from: 'categories', // Collection name with category data
+        let: { categoryId: '$_category' }, // Variable for ObjectId from the _category field
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ['$_id', '$$categoryId'] }, // Находим соответствие ObjectId в коллекции categories
+              $expr: { $eq: ['$_id', '$$categoryId'] }, // Finding ObjectId match in categories collection
             },
           },
         ],
-        as: 'categoryData', // Название нового поля, в котором будут храниться данные о категории
+        as: 'categoryData', // New field name to store category data
       },
     },
     {
       $lookup: {
-        from: 'variants', // Название вашей коллекции с данными о вариантах
-        let: { variantId: '$_variant' }, // Объявляем переменную для ObjectId из поля _variant
+        from: 'variants', // Collection name with variant data
+        let: { variantId: '$_variant' }, // Variable for ObjectId from the _variant field
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ['$_id', '$$variantId'] }, // Находим соответствие ObjectId в коллекции variants
+              $expr: { $eq: ['$_id', '$$variantId'] }, // Finding ObjectId match in variants collection
             },
           },
         ],
-        as: 'variantData', // Название нового поля, в котором будут храниться данные о варианте
+        as: 'variantData', // New field name to store variant data
       },
     },
     {
       $lookup: {
-        from: 'countries', // Название вашей коллекции с данными о странах
-        let: { countryId: '$_country' }, // Объявляем переменную для ObjectId из поля _country
+        from: 'countries', // Collection name with country data
+        let: { countryId: '$_country' }, // Variable for ObjectId from the _country field
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ['$_id', '$$countryId'] }, // Находим соответствие ObjectId в коллекции countries
+              $expr: { $eq: ['$_id', '$$countryId'] }, // Finding ObjectId match in countries collection
             },
           },
         ],
-        as: 'countryData', // Название нового поля, в котором будут храниться данные о стране
+        as: 'countryData', // New field name to store country data
       },
     },
-    // развертывание массивов
+    // Unfolding arrays
     {
-      $unwind: '$items', // Разворачиваем массив объектов items
+      $unwind: '$items', // Unwinding the array of item objects
+    },
+    {
+      $match: {
+        'items.count': { $gt: 0 }, // Filter to exclude items with count: 0
+      },
     },
     {
       $unwind: {
         path: '$petData',
-        preserveNullAndEmptyArrays: true, // Для сохранения объектов, у которых нет соответствия в pets
+        preserveNullAndEmptyArrays: true, // Preserving objects without a match in pets
       },
     },
     {
       $unwind: {
         path: '$categoryData',
-        preserveNullAndEmptyArrays: true, // Для сохранения объектов, у которых нет соответствия в categories
+        preserveNullAndEmptyArrays: true, // Preserving objects without a match in categories
       },
     },
     {
       $unwind: {
         path: '$variantData',
-        preserveNullAndEmptyArrays: true, // Для сохранения объектов, у которых нет соответствия в variants
+        preserveNullAndEmptyArrays: true, // Preserving objects without a match in variants
       },
     },
     {
       $unwind: {
         path: '$countryData',
-        preserveNullAndEmptyArrays: true, // Для сохранения объектов, у которых нет соответствия в countries
+        preserveNullAndEmptyArrays: true, // Preserving objects without a match in countries
       },
     },
 
-    // добавление полей
+    // adding fields
     {
       $addFields: {
-        'items.originalId': { $toString: '$_id' }, // Преобразуем _id в строку и сохраняем в новом поле items.originalId
+        'items.originalId': { $toString: '$_id' }, // Converting _id to string and saving it as items.originalId
         'items.actualPrice': {
           $cond: {
-            if: { $gte: ['$items.sale', 0] }, // Если есть распродажная цена
-            then: '$items.sale', // Используем ее
-            else: '$items.price', // Иначе используем цену товара
+            if: { $gte: ['$items.sale', 0] }, // Using the sale price if available
+            then: '$items.sale',
+            else: '$items.price', // Otherwise using the regular price
           },
         },
-        _pet: '$petData', // Поле _pet будет содержать данные, найденные по ObjectId
-        _category: '$categoryData', // Поле _category будет содержать данные, найденные по ObjectId
-        _variant: '$variantData', // Поле _variant будет содержать данные, найденные по ObjectId
-        _country: '$countryData', // Поле _country будет содержать данные, найденные по ObjectId
+        _pet: '$petData', // _pet field containing data found using ObjectId
+        _category: '$categoryData', // _category field containing data found using ObjectId
+        _variant: '$variantData', // _variant field containing data found using ObjectId
+        _country: '$countryData', // _country field containing data found using ObjectId
       },
     },
 
@@ -108,7 +120,7 @@ const aggregateParams = (minPrice, maxPrice, filter) => {
       $match: {
         $and: [
           {
-            'items.actualPrice': { $gte: Number(minPrice), $lte: Number(maxPrice) }, // Фильтр по цене actualPrice
+            'items.actualPrice': { $gte: Number(minPrice), $lte: Number(maxPrice) }, // Filtering by actualPrice
           },
           filter,
         ],
@@ -132,8 +144,8 @@ const aggregateParams = (minPrice, maxPrice, filter) => {
         updatedAt: { $first: '$updatedAt' },
         items: {
           $push: {
-            _id: '$items.originalId', // Присваиваем сохраненное значение _id из items.originalId
-            size: '$items.size', // Продолжаем сохранять другие поля items
+            _id: '$items.originalId', // Assign the stored _id value from items.originalId
+            size: '$items.size', // Continue saving other "items" fields
             price: '$items.price',
             count: '$items.count',
             productCode: '$items.productCode',
@@ -145,13 +157,46 @@ const aggregateParams = (minPrice, maxPrice, filter) => {
     },
     {
       $project: {
-        petData: 0, // Удаляем временное поле petData
-        categoryData: 0, // Удаляем временное поле categoryData
-        variantData: 0, // Удаляем временное поле variantData
-        countryData: 0, // Удаляем временное поле countryData
+        petData: 0, // Delete temporary field petData
+        categoryData: 0, // Delete temporary field categoryData
+        variantData: 0, // Delete temporary field variantData
+        countryData: 0, // Delete temporary field countryData
       },
     },
   ];
+
+  // find and set the index for inserting the required sorting by weight in the array $items
+  const indexForWeightSortingAdd =
+    aggregationPipeline.findIndex(obj => obj.$unwind === '$items') + 1;
+
+  // Apply sorting only if sortValue is defined as desired
+  if (sortValue === 1 || sortValue === -1) {
+    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
+      $sort: { 'items.size': sortValue }, // Sorting depending on sortValue
+    });
+  }
+  // Если sortBy не определено, применить сортировку по полю sale
+  if (sortBy === undefined) {
+    // Sorting inside items by sale field
+    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
+      $sort: {
+        'items.sale': 1, // sorting by increasing sale
+        'items.size': 1, // sorting by increasing size
+      },
+    });
+  }
+
+  if (brands && typeof brands === 'string') {
+    brands = brands.split(',').map(brand => brand.trim());
+  }
+
+  if (brands && brands.length > 0) {
+    aggregationPipeline.unshift({
+      $match: { brand: { $in: brands } },
+    });
+  }
+
+  return aggregationPipeline;
 };
 
 module.exports = { aggregateParams };

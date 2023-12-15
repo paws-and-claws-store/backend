@@ -8,9 +8,10 @@ module.exports = async ({
   page = 1,
   limit = LIMIT_PAGINATION,
   collectionLinks = [],
-  sortBy,
+  sortBy = 'cheap', // this fiels is required, beacause load more work uncorrectly response goods the same goods
   minPrice = 0,
   maxPrice = 10000000000,
+  brands, // string of brands, split by comma
   aggregate,
 }) => {
   const data = {};
@@ -19,7 +20,7 @@ module.exports = async ({
     let result;
 
     if (aggregate) {
-      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter));
+      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter, sortBy, brands));
       data.totalDocs = result.length;
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
@@ -28,7 +29,7 @@ module.exports = async ({
     //  const result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
     // const result = await Model.aggregate(aggregateParams);
 
-    const sortedResult = sort(result, sortBy);
+    const sortedResult = sort(result, sortBy, aggregate);
 
     const paginatedResult = sortedResult.slice((page - 1) * limit, page * limit);
 
