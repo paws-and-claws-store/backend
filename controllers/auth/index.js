@@ -8,4 +8,6 @@ module.exports = {
   logout: ctrlErrorHandler(require("./logout")),
   verifyEmail: ctrlErrorHandler(require("./verifyEmail")),
   resendVerifyEmail: ctrlErrorHandler(require("./resendVerifyEmail")),
+  resetPassword: ctrlErrorHandler(require("./resetPassword")),
+  reset: ctrlErrorHandler(require("./reset")),
 };

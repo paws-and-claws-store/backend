@@ -29,6 +29,10 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    resetPasswordToken: {
+      type: String,
+      default: "",
+    },
     verify: {
       type: Boolean,
       default: false,

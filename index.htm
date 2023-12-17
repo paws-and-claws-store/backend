@@ -1,16 +1,36 @@
-<h2>Привіт <span style="color: orange;">Artem</span></h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<p>Дякуюємо за те що, обрали наш магазин для свого улюбленця</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
-<h3>Щоб завершити процес реєстрації в <span style="color: #79798f;">Paws & Claws</span> перейдіть за цим посиланням:
-</h3>
-<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationCode}">Посилання на підтвердження реєстрації</a>
+<body>
+    <script>
+        class Auth {
+            constructor({ model }) {
+                this.Model = model;
+            }
+            async register(req, res) {
+                console.log(this);
+                console.log("a");
+            }
+            register = async (req, res) => {
+                console.log(this);
+                console.log("b");
+            };
 
-<p>Ваші реєстраційні дані</p>
 
-<p>Ім'я: <span>Artem</span></p>
-<p>Email: <span>asdasd@gmail.cpm</span></p>
 
-<h4>Приємних покупок!</h4>
-<p>З найкращими побажаннями</p>
-<p>команда</p>
+        }
+
+        const human = new Auth({ model: "a" });
+        console.log("human:", human);
+
+        human.register() 
+    </script>
+</body>
+
+</html>

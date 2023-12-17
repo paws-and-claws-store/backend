@@ -15,7 +15,7 @@ const verifyEmail = async (req, res) => {
 
   await user.save();
 
-  res.redirect("https://paws-and-claws-store.github.io/frontend");
+  res.redirect("https://paws-and-claws-store.github.io/frontend/user");
 };
 
 module.exports = verifyEmail;

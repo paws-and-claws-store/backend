@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const { engine } = require("express-handlebars");
 require("dotenv").config();
 
 const productsRouter = require("./routes/api/products");
@@ -15,6 +16,10 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.engine("handlebars", engine());
+
+app.set("view engine", "handlebars");
+app.set("views", "./views");
 
 app.use("/api/products", productsRouter);
 app.use("/api/structure", structureRouter);

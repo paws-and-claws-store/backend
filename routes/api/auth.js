@@ -19,4 +19,10 @@ router.get("/verify/:verificationCode", ctrlAuth.verifyEmail);
 
 router.post("/verify", validateBody(emailSchema), auth.resendVerifyEmail);
 
+router.post("/resetPassword", validateBody(emailSchema), auth.resetPassword);
+
+router.get("reset/:resetPasswordToken", auth.reset);
+
+router.post("updatePassword");
+
 module.exports = router;
