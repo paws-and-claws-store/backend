@@ -13,6 +13,8 @@ const login = async (req, res) => {
     throw HttpError(400, "User is not defined");
   }
 
+  const { name } = user;
+
   if (!user.verify) {
     throw HttpError(401, "Email is not verified");
   }
@@ -38,6 +40,8 @@ const login = async (req, res) => {
     code: 200,
     data: {
       user: {
+        name,
+        email,
         accessToken,
         refreshToken,
       },
