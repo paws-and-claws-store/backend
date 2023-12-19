@@ -2,6 +2,7 @@ const sort = require('./sort');
 const { LIMIT_PAGINATION } = require('../config/consts');
 const { aggregateParams } = require('./paramsData');
 const brandsCount = require('./brandsCount');
+const minMaxPriceRange = require('./minMaxPriceRange');
 
 module.exports = async ({
   Model,
@@ -25,6 +26,7 @@ module.exports = async ({
       resultForBrandsCount = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter));
       data.totalDocs = result.length;
       data.brands = brandsCount(resultForBrandsCount);
+      data.minMax = minMaxPriceRange(result);
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
       data.totalDocs = await Model.count(filter);
