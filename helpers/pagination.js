@@ -22,10 +22,15 @@ module.exports = async ({
     let result;
 
     if (aggregate) {
-      result = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter, sortBy, brands));
-      resultForBrandsCount = await Model.aggregate(aggregateParams(minPrice, maxPrice, filter));
+      result = await Model.aggregate(
+        aggregateParams({ minPrice, maxPrice, filter, sortBy, brands }),
+      );
+      resultForBrandsCount = await Model.aggregate(
+        aggregateParams({ minPrice, maxPrice, filter, isZeroCount: true }),
+      );
       data.totalDocs = result.length;
-      data.brands = brandsCount(resultForBrandsCount);
+      //data.brands = brandsCount(resultForBrandsCount);
+      data.brands = brandsCount(result);
       data.minMax = minMaxPriceRange(result);
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));

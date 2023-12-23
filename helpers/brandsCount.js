@@ -1,11 +1,20 @@
 const brandsCount = data => {
   const filterBrands = data.reduce((prev, element) => {
-    if (prev[element.brand]) {
+    const zeroCount = element.items.every(item => item.count === 0);
+    if (zeroCount) {
+      prev[element.brand] = 0;
+      return prev;
+    }
+
+    if (prev[element.brand] >= 1) {
       prev[element.brand] += 1;
       return prev;
     }
-    prev[element.brand] = 1;
-    return prev;
+
+    if (!zeroCount) {
+      prev[element.brand] = 1;
+      return prev;
+    }
   }, {});
   return filterBrands;
 };

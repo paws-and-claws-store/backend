@@ -1,4 +1,4 @@
-const aggregateParams = (minPrice, maxPrice, filter, sortBy, brands) => {
+const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, isZeroCount }) => {
   let sortValue;
 
   if (sortBy === 'expensive') {
@@ -68,11 +68,23 @@ const aggregateParams = (minPrice, maxPrice, filter, sortBy, brands) => {
     {
       $unwind: '$items', // Unwinding the array of item objects
     },
+    // {
+    //   $match: {
+    //     'items.count': { $gt: 0 }, // Filter to exclude items with count: 0
+    //   },
+    // },
+
     {
-      $match: {
-        'items.count': { $gt: 0 }, // Filter to exclude items with count: 0
+      $addFields: {
+        'items.isZeroCount': { $eq: ['$items.count', 0] },
       },
     },
+    {
+      $sort: {
+        'items.isZeroCount': 1,
+      },
+    },
+
     {
       $unwind: {
         path: '$petData',
@@ -182,6 +194,15 @@ const aggregateParams = (minPrice, maxPrice, filter, sortBy, brands) => {
       $sort: {
         'items.sale': 1, // sorting by increasing sale
         'items.size': 1, // sorting by increasing size
+      },
+    });
+  }
+
+  if (isZeroCount) {
+    // Sorting inside items by sale field
+    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
+      $match: {
+        'items.count': { $gt: 0 }, // Filter to exclude items with count: 0
       },
     });
   }

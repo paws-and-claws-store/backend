@@ -9,7 +9,7 @@ const minMaxPriceRange = data => {
     return priceItems;
   });
 
-  return [Math.min(...allPrices), Math.max(...allPrices)];
+  return [Math.floor(Math.min(...allPrices)), Math.ceil(Math.max(...allPrices))];
 };
 
 module.exports = minMaxPriceRange;
