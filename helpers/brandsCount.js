@@ -16,7 +16,15 @@ const brandsCount = data => {
       return prev;
     }
   }, {});
-  return filterBrands;
+
+  const sortedBrands = Object.keys(filterBrands)
+    .sort()
+    .reduce((obj, key) => {
+      obj[key] = filterBrands[key];
+      return obj;
+    }, {});
+
+  return sortedBrands;
 };
 
 module.exports = brandsCount;
