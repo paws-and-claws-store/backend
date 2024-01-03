@@ -8,6 +8,10 @@
 </head>
 
 <body>
+
+    <svg width="30" height="30" class="connect-icon-container">
+        <use class="connect__icon" href="./sprite.svg#icon-Collar-1#icon-Collar-1"></use>
+    </svg>
     <script>
         class Auth {
             constructor({ model }) {
@@ -26,10 +30,12 @@
 
         }
 
+
+
         const human = new Auth({ model: "a" });
         console.log("human:", human);
 
-        human.register() 
+        human.register()
     </script>
 </body>
 
