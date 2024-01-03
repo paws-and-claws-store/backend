@@ -33,7 +33,14 @@
 - [Запити для авторизації](#запитина-на-авторизацію)
 
   - [Реєстрація](#реєстрація)
-  - [Логін](#логін) -[Вихід](#вихід) -[Рефреш](#рефреш) -[На користувача](#на-користувача) -[На повторне надсилання листа для підтвердження](#на-повторне-надсилання-листа-для-підтвердження)
+  - [Логін](#логін)
+  - [Вихід](#вихід)
+  - [Рефреш](#рефреш)
+  - [На користувача](#на-користувача)
+  - [На повторне надсилання листа для підтвердження](#на-повторне-надсилання-листа-для-підтвердження)
+  - [На скидання паролю](#на-скидання-паролю)
+  - [На перевірку токена для скидання паролю](#на-перевірку-токена-для-скидання-паролю)
+  - [На оновлення паролю](#на-оновлення-паролю)
 
 ## Запити для продутків
 
@@ -188,16 +195,16 @@ _Присутнє сортування_
 ```js
 [
   {
-    _id: '64cef53b53f2bc3e1c80705e',
-    ua: 'Товари для собак',
-    en: 'For Dogs',
-    code: 'for_dogs',
+    _id: "64cef53b53f2bc3e1c80705e",
+    ua: "Товари для собак",
+    en: "For Dogs",
+    code: "for_dogs",
   },
   {
-    _id: '64cef53b53f2bc3e1c80705f',
-    ua: 'Товари для котів',
-    en: 'For Cats',
-    code: 'for_cats',
+    _id: "64cef53b53f2bc3e1c80705f",
+    ua: "Товари для котів",
+    en: "For Cats",
+    code: "for_cats",
   },
 ];
 ```
@@ -217,15 +224,15 @@ _Присутнє сортування_
 ```js
 [
   {
-    _id: '64cef5e853f2bc3e1c807064',
-    ua: 'Корм для котів',
-    en: 'Food for Cats',
-    code: 'food_for_cats',
+    _id: "64cef5e853f2bc3e1c807064",
+    ua: "Корм для котів",
+    en: "Food for Cats",
+    code: "food_for_cats",
     _pet: {
-      _id: '64cef53b53f2bc3e1c80705f',
-      ua: 'Товари для котів',
-      en: 'For Cats',
-      code: 'for_cats',
+      _id: "64cef53b53f2bc3e1c80705f",
+      ua: "Товари для котів",
+      en: "For Cats",
+      code: "for_cats",
     },
   },
 ];
@@ -247,60 +254,60 @@ _Присутнє сортування_
 ```js
 [
   {
-    _id: '64d0055d76de8bce9cf3eebf',
-    ua: 'Сухий корм для котів',
-    en: 'Dry Cat Food',
-    code: 'dry_cat_food',
+    _id: "64d0055d76de8bce9cf3eebf",
+    ua: "Сухий корм для котів",
+    en: "Dry Cat Food",
+    code: "dry_cat_food",
     _pet: {
-      _id: '64cef53b53f2bc3e1c80705f',
-      ua: 'Товари для котів',
-      en: 'For Cats',
-      code: 'for_cats',
+      _id: "64cef53b53f2bc3e1c80705f",
+      ua: "Товари для котів",
+      en: "For Cats",
+      code: "for_cats",
     },
     _category: {
-      _id: '64cef5e853f2bc3e1c807064',
-      ua: 'Корм для котів',
-      en: 'Food for Cats',
-      code: 'food_for_cats',
-      _pet: '64cef53b53f2bc3e1c80705f',
+      _id: "64cef5e853f2bc3e1c807064",
+      ua: "Корм для котів",
+      en: "Food for Cats",
+      code: "food_for_cats",
+      _pet: "64cef53b53f2bc3e1c80705f",
     },
   },
   {
-    _id: '64d0055d76de8bce9cf3eec0',
-    ua: 'Консерви для котів',
-    en: 'Wet Cat Food',
-    code: 'wet_cat_food',
+    _id: "64d0055d76de8bce9cf3eec0",
+    ua: "Консерви для котів",
+    en: "Wet Cat Food",
+    code: "wet_cat_food",
     _pet: {
-      _id: '64cef53b53f2bc3e1c80705f',
-      ua: 'Товари для котів',
-      en: 'For Cats',
-      code: 'for_cats',
+      _id: "64cef53b53f2bc3e1c80705f",
+      ua: "Товари для котів",
+      en: "For Cats",
+      code: "for_cats",
     },
     _category: {
-      _id: '64cef5e853f2bc3e1c807064',
-      ua: 'Корм для котів',
-      en: 'Food for Cats',
-      code: 'food_for_cats',
-      _pet: '64cef53b53f2bc3e1c80705f',
+      _id: "64cef5e853f2bc3e1c807064",
+      ua: "Корм для котів",
+      en: "Food for Cats",
+      code: "food_for_cats",
+      _pet: "64cef53b53f2bc3e1c80705f",
     },
   },
   {
-    _id: '64d0055d76de8bce9cf3eec1',
-    ua: 'Корм для кошенят',
-    en: 'Food for Kittens',
-    code: 'food_for_kittens',
+    _id: "64d0055d76de8bce9cf3eec1",
+    ua: "Корм для кошенят",
+    en: "Food for Kittens",
+    code: "food_for_kittens",
     _pet: {
-      _id: '64cef53b53f2bc3e1c80705f',
-      ua: 'Товари для котів',
-      en: 'For Cats',
-      code: 'for_cats',
+      _id: "64cef53b53f2bc3e1c80705f",
+      ua: "Товари для котів",
+      en: "For Cats",
+      code: "for_cats",
     },
     _category: {
-      _id: '64cef5e853f2bc3e1c807064',
-      ua: 'Корм для котів',
-      en: 'Food for Cats',
-      code: 'food_for_cats',
-      _pet: '64cef53b53f2bc3e1c80705f',
+      _id: "64cef5e853f2bc3e1c807064",
+      ua: "Корм для котів",
+      en: "Food for Cats",
+      code: "food_for_cats",
+      _pet: "64cef53b53f2bc3e1c80705f",
     },
   },
 ];
@@ -317,82 +324,82 @@ _Присутнє сортування_
 ```js
 [
   {
-    _id: '64cef53b53f2bc3e1c80705e',
-    ua: 'Товари для собак',
-    en: 'For Dogs',
-    code: 'for_dogs',
+    _id: "64cef53b53f2bc3e1c80705e",
+    ua: "Товари для собак",
+    en: "For Dogs",
+    code: "for_dogs",
     _categories: [
       {
-        _id: '64cef5e853f2bc3e1c807063',
-        ua: 'Корм для собак',
-        en: 'Food for Dogs',
-        code: 'food_for_dogs',
-        _pet: '64cef53b53f2bc3e1c80705e',
+        _id: "64cef5e853f2bc3e1c807063",
+        ua: "Корм для собак",
+        en: "Food for Dogs",
+        code: "food_for_dogs",
+        _pet: "64cef53b53f2bc3e1c80705e",
         _variants: [
           {
-            _id: '64d0055d76de8bce9cf3eebd',
-            ua: 'Сухий корм для собак',
-            en: 'Dry Dog Food',
-            code: 'dry_dog_food',
-            _pet: '64cef53b53f2bc3e1c80705e',
-            _category: '64cef5e853f2bc3e1c807063',
+            _id: "64d0055d76de8bce9cf3eebd",
+            ua: "Сухий корм для собак",
+            en: "Dry Dog Food",
+            code: "dry_dog_food",
+            _pet: "64cef53b53f2bc3e1c80705e",
+            _category: "64cef5e853f2bc3e1c807063",
           },
           {
-            _id: '64d0055d76de8bce9cf3eebe',
-            ua: 'Консерви для собак',
-            en: 'Wet Dog Food',
-            code: 'wet_dog_food',
-            _pet: '64cef53b53f2bc3e1c80705e',
-            _category: '64cef5e853f2bc3e1c807063',
+            _id: "64d0055d76de8bce9cf3eebe",
+            ua: "Консерви для собак",
+            en: "Wet Dog Food",
+            code: "wet_dog_food",
+            _pet: "64cef53b53f2bc3e1c80705e",
+            _category: "64cef5e853f2bc3e1c807063",
           },
           {
-            _id: '64d0055d76de8bce9cf3eebc',
-            ua: 'Корм для цуценят',
-            en: 'Food for Puppies',
-            code: 'food_for_puppies',
-            _pet: '64cef53b53f2bc3e1c80705e',
-            _category: '64cef5e853f2bc3e1c807063',
+            _id: "64d0055d76de8bce9cf3eebc",
+            ua: "Корм для цуценят",
+            en: "Food for Puppies",
+            code: "food_for_puppies",
+            _pet: "64cef53b53f2bc3e1c80705e",
+            _category: "64cef5e853f2bc3e1c807063",
           },
         ],
       },
     ],
   },
   {
-    _id: '64cef53b53f2bc3e1c80705f',
-    ua: 'Товари для котів',
-    en: 'For Cats',
-    code: 'for_cats',
+    _id: "64cef53b53f2bc3e1c80705f",
+    ua: "Товари для котів",
+    en: "For Cats",
+    code: "for_cats",
     _categories: [
       {
-        _id: '64cef5e853f2bc3e1c807064',
-        ua: 'Корм для котів',
-        en: 'Food for Cats',
-        code: 'food_for_cats',
-        _pet: '64cef53b53f2bc3e1c80705f',
+        _id: "64cef5e853f2bc3e1c807064",
+        ua: "Корм для котів",
+        en: "Food for Cats",
+        code: "food_for_cats",
+        _pet: "64cef53b53f2bc3e1c80705f",
         _variants: [
           {
-            _id: '64d0055d76de8bce9cf3eebf',
-            ua: 'Сухий корм для котів',
-            en: 'Dry Cat Food',
-            code: 'dry_cat_food',
-            _pet: '64cef53b53f2bc3e1c80705f',
-            _category: '64cef5e853f2bc3e1c807064',
+            _id: "64d0055d76de8bce9cf3eebf",
+            ua: "Сухий корм для котів",
+            en: "Dry Cat Food",
+            code: "dry_cat_food",
+            _pet: "64cef53b53f2bc3e1c80705f",
+            _category: "64cef5e853f2bc3e1c807064",
           },
           {
-            _id: '64d0055d76de8bce9cf3eec0',
-            ua: 'Консерви для котів',
-            en: 'Wet Cat Food',
-            code: 'wet_cat_food',
-            _pet: '64cef53b53f2bc3e1c80705f',
-            _category: '64cef5e853f2bc3e1c807064',
+            _id: "64d0055d76de8bce9cf3eec0",
+            ua: "Консерви для котів",
+            en: "Wet Cat Food",
+            code: "wet_cat_food",
+            _pet: "64cef53b53f2bc3e1c80705f",
+            _category: "64cef5e853f2bc3e1c807064",
           },
           {
-            _id: '64d0055d76de8bce9cf3eec1',
-            ua: 'Корм для кошенят',
-            en: 'Food for Kittens',
-            code: 'food_for_kittens',
-            _pet: '64cef53b53f2bc3e1c80705f',
-            _category: '64cef5e853f2bc3e1c807064',
+            _id: "64d0055d76de8bce9cf3eec1",
+            ua: "Корм для кошенят",
+            en: "Food for Kittens",
+            code: "food_for_kittens",
+            _pet: "64cef53b53f2bc3e1c80705f",
+            _category: "64cef5e853f2bc3e1c807064",
           },
         ],
       },
@@ -588,12 +595,53 @@ POST запит
 
 - `/api/auth/verify`
 
-Приклад запиту
-
 Приклад відповіді
 
 ```json
 {
   "email": "qwerty@email.com"
+}
+```
+
+### На скидання паролю
+
+POST запит
+
+- `/api/auth/resetPassword`
+
+Приклад запиту
+
+```json
+{
+  "email": "qwerty@email.com"
+}
+```
+
+### На перевірку токена для скидання паролю
+
+POST запит
+
+- `/api/auth/verifyResetToken`
+
+Приклад запиту
+
+```json
+{
+  "resetPasswordToken": "adassad.sdfsoifhsdfs.sfdhsfs"
+}
+```
+
+### На оновлення паролю
+
+PATCH запит
+
+- `/api/auth/updatePassword`
+
+Приклад запиту
+
+```json
+{
+  "password": "qwerA893ail.com",
+  "resetPasswordToken": "adassad.sdfsoifhsdfs.sfdhsfs"
 }
 ```

@@ -1,3 +1,3 @@
 module.exports = {
-  transporter: require("./sendEmail"),
+  nodemailerConfig: require("./sendEmail"),
 };

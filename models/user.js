@@ -93,4 +93,20 @@ const emailSchema = Joi.object({
   }),
 });
 
-module.exports = { User, registerSchema, loginSchema, refreshSchema, emailSchema };
+const resetPasswordSchema = Joi.object({
+  password: Joi.string().min(6).required().messages({
+    "string.base": 'The "Password" field must be a string',
+    "string.min": "Password must be at least {#limit} characters long",
+    "any.required": 'The "Password" field is required',
+  }),
+  resetPasswordToken: Joi.string(),
+});
+
+module.exports = {
+  User,
+  registerSchema,
+  loginSchema,
+  refreshSchema,
+  emailSchema,
+  resetPasswordSchema,
+};

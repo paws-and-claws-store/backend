@@ -1,28 +1,35 @@
 const { Router } = require("express");
 const router = Router();
-const ctrlAuth = require("../../controllers/auth");
+
 const { validateBody, authenticate } = require("../../middlewares");
-const { registerSchema, loginSchema, refreshSchema, emailSchema } = require("../../models/user");
-const auth = require("../../controllers/auth");
+const {
+  registerSchema,
+  loginSchema,
+  refreshSchema,
+  emailSchema,
+  resetPasswordSchema,
+} = require("../../models/user");
 
-router.post("/register", validateBody(registerSchema), ctrlAuth.register);
+const userController = require("../../controllers/userController");
 
-router.post("/login", validateBody(loginSchema), ctrlAuth.login);
+router.post("/register", validateBody(registerSchema), userController.register);
 
-router.get("/current", authenticate, ctrlAuth.getCurrent);
+router.post("/login", validateBody(loginSchema), userController.login);
 
-router.post("/refresh", validateBody(refreshSchema), ctrlAuth.refresh);
+router.get("/current", authenticate, userController.current);
 
-router.get("/logout", authenticate, ctrlAuth.logout);
+router.post("/refresh", validateBody(refreshSchema), userController.refresh);
 
-router.get("/verify/:verificationCode", ctrlAuth.verifyEmail);
+router.get("/logout", authenticate, userController.logout);
 
-router.post("/verify", validateBody(emailSchema), auth.resendVerifyEmail);
+router.get("/verify/:verificationCode", userController.verifyEmail);
 
-router.post("/resetPassword", validateBody(emailSchema), auth.resetPassword);
+router.post("/verify", validateBody(emailSchema), userController.resendVerifyEmail);
 
-router.get("reset/:resetPasswordToken", auth.reset);
+router.post("/resetPassword", validateBody(emailSchema), userController.resetPassword);
 
-router.post("updatePassword");
+router.post("/verifyResetToken", userController.verifyResetToken);
+
+router.patch("/updatePassword", validateBody(resetPasswordSchema), userController.updatePassword);
 
 module.exports = router;
