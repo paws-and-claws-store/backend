@@ -109,6 +109,10 @@ class UserServise {
       throw HttpError(401, "Email not found");
     }
 
+    if (user.verify) {
+      throw HttpError(400, "User is verified");
+    }
+
     user.verify = true;
     user.verificationCode = "";
 

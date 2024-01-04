@@ -40,7 +40,7 @@ class EmailServise {
 <p>Дякуюємо за те що, обрали наш магазин для свого улюбленця.</p>
 
 <h3>Щоб завершити процес реєстрації в <span style="color: #B2AB73;">Paws & Claws</span>, перейдіть за цим посиланням:</h3>
-<a style: 'color: grey' target="_blank" href="${BASE_URL}/api/auth/verify/${data.verificationCode}">Посилання на підтвердження реєстрації</a>
+<a style='color: grey' target="_blank" href="${BASE_URL}/api/auth/verify/${data.verificationCode}">Посилання на підтвердження реєстрації</a>
 
 <p>Ваші реєстраційні дані</p>
 
@@ -50,7 +50,7 @@ class EmailServise {
 <h4>Приємних покупок!</h4>
 <p>З найкращими побажаннями</p>
 <p>команда</p>
-  <img src="${BASE_URL}/Collar.png"/>
+  <img src="https://www.amazon.com/photos/album/rLU043pPRUCSh76CewlnNA/gallery/Yka9c_iaTVqdsXM0nnBMkw">
 `,
     };
     await this.transporter.sendMail(email);
