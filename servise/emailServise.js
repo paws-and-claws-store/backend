@@ -50,7 +50,7 @@ class EmailServise {
 <h4>Приємних покупок!</h4>
 <p>З найкращими побажаннями</p>
 <p>команда</p>
-  <img src="https://www.amazon.com/photos/album/rLU043pPRUCSh76CewlnNA/gallery/Yka9c_iaTVqdsXM0nnBMkw">
+  <img src="https://res.cloudinary.com/dtwrxerft/image/upload/v1704464171/Collar_ptvg34.png">
 `,
     };
     await this.transporter.sendMail(email);

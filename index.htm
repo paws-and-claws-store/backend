@@ -8,6 +8,50 @@
 </head>
 
 <body>
+    <table style="width: 100%; background-color: #ffffff; padding: 20px;">
+        <tr>
+            <td>
+                <h2>Привіт, <span style="color: orange;">${data.name}</span>!</h2>
+                <p>Дякуюємо за те що, обрали наш магазин для свого улюбленця.</p>
+
+                <h3>Щоб завершити процес реєстрації в <span style="color: #B2AB73;">Paws & Claws</span>, перейдіть за
+                    цим
+                    посиланням:</h3>
+                <a style='color: grey; ' target="_blank"
+                    href="${BASE_URL}/api/auth/verify/${data.verificationCode}">Посилання на підтвердження
+                    реєстрації</a>
+
+                <p>Ваші реєстраційні дані</p>
+                <p>Ім'я: <span>${data.name}</span></p>
+                <p>Email: <span>${data.email}</span></p>
+
+                <h4>Приємних покупок!</h4>
+                <p>З найкращими побажаннями</p>
+        <tr>
+            <p>Команда</p>
+            <img src="https://res.cloudinary.com/dtwrxerft/image/upload/v1704464171/Collar_ptvg34.png" width="80"
+                style="display: block; margin: 0 auto;">
+            <p style="margin: 0;">Paws & Claws</p>
+        </tr>
+
+
+
+        </td>
+        </tr>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <svg width="30" height="30" class="connect-icon-container">
         <use class="connect__icon" href="./sprite.svg#icon-Collar-1#icon-Collar-1"></use>
@@ -36,6 +80,10 @@
         console.log("human:", human);
 
         human.register()
+
+
+
+
     </script>
 </body>
 
