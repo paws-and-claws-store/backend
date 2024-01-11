@@ -60,7 +60,7 @@ const sort = (product, sortBy, aggregate) => {
           return priceA - priceB;
         });
         break;
-      case "sale":
+      case "discount":
         data = sortWe(product);
         data = data.sort((a, b) => {
           const hasCountA = a.items.some((item) => item.count > 0 && item.sale);
