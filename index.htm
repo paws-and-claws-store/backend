@@ -1,90 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            width: 100% !important;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            margin: 0;
+            padding: 0;
+            line-height: 100%;
+        }
+
+        table td {
+            border-collapse: collapse;
+        }
+
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        table tr td {
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <table style="width: 100%; background-color: #ffffff; padding: 20px;">
+    <table style="padding: 20px;" cellpadding="0" cellspacing="0">
         <tr>
             <td>
-                <h2>Привіт, <span style="color: orange;">${data.name}</span>!</h2>
+                <p>Привіт, <span style="color: orange;">${data.name}</span>!</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <p>Дякуюємо за те що, обрали наш магазин для свого улюбленця.</p>
-
-                <h3>Щоб завершити процес реєстрації в <span style="color: #B2AB73;">Paws & Claws</span>, перейдіть за
-                    цим
-                    посиланням:</h3>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Щоб завершити процес реєстрації в <span style="color: #B2AB73;">Paws & Claws</span>, перейдіть за цим
+                    посиланням:</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a style='color: grey; ' target="_blank"
                     href="${BASE_URL}/api/auth/verify/${data.verificationCode}">Посилання на підтвердження
                     реєстрації</a>
-
-                <p>Ваші реєстраційні дані</p>
-                <p>Ім'я: <span>${data.name}</span></p>
-                <p>Email: <span>${data.email}</span></p>
-
-                <h4>Приємних покупок!</h4>
-                <p>З найкращими побажаннями</p>
-        <tr>
-            <p>Команда</p>
-            <img src="https://res.cloudinary.com/dtwrxerft/image/upload/v1704464171/Collar_ptvg34.png" width="80"
-                style="display: block; margin: 0 auto;">
-            <p style="margin: 0;">Paws & Claws</p>
+            </td>
         </tr>
-
-
-
-        </td>
+        <tr>
+            <td>
+                <p>Ваші реєстраційні дані</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Ім'я: <span>${data.name}</span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Email: <span>${data.email}</span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Приємних покупок!</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>З найкращими побажаннями</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0">
+                                <tr>
+                                    <td style="padding-right: 1em;">Команда</td>
+                                    <td><img src="https://res.cloudinary.com/dtwrxerft/image/upload/v1704464171/Collar_ptvg34.png"
+                                            width="40" style="display: block; margin: 0 auto;"></td>
+                                    <td>
+                                        <p style="margin: 0;">Paws & Claws</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <svg width="30" height="30" class="connect-icon-container">
-        <use class="connect__icon" href="./sprite.svg#icon-Collar-1#icon-Collar-1"></use>
-    </svg>
-    <script>
-        class Auth {
-            constructor({ model }) {
-                this.Model = model;
-            }
-            async register(req, res) {
-                console.log(this);
-                console.log("a");
-            }
-            register = async (req, res) => {
-                console.log(this);
-                console.log("b");
-            };
-
-
-
-        }
-
-
-
-        const human = new Auth({ model: "a" });
-        console.log("human:", human);
-
-        human.register()
-
-
-
-
-    </script>
 </body>
 
 </html>

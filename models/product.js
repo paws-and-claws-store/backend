@@ -90,6 +90,9 @@ const FindByNameOrBrandSchema = Joi.object({
     "number.base": 'The "page" field must be a number',
     "number.integer": 'The "page" field must be an integer',
   }),
+  findBy: Joi.string().min(3).messages({
+    "string.min": "Мінімальна кількість символів 3",
+  }),
 
   sortBy: Joi.string(),
   minPrice: Joi.string(),
