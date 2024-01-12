@@ -78,7 +78,7 @@ const productSchema = new Schema(
   {
     versionKey: false,
     timestamps: true,
-  }
+  },
 );
 
 productSchema.plugin(mongoosePaginate);
@@ -101,6 +101,7 @@ const FindByNameOrBrandSchema = Joi.object({
   minPrice: Joi.string(),
   maxPrice: Joi.string(),
   brands: Joi.string(),
+  availability: Joi.boolean(),
 });
 
 module.exports = {

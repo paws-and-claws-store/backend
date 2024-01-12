@@ -14,6 +14,7 @@ module.exports = async ({
   minPrice = 0,
   maxPrice = 10000000000,
   brands, // string of brands, split by comma
+  availability,
   aggregate,
 }) => {
   const data = {};
@@ -23,30 +24,21 @@ module.exports = async ({
 
     if (aggregate) {
       result = await Model.aggregate(
-        aggregateParams({ minPrice, maxPrice, filter, sortBy, brands }),
+        aggregateParams({ minPrice, maxPrice, filter, sortBy, brands, availability }),
       );
-      resultForBrandsCount = await Model.aggregate(
-        aggregateParams({ minPrice, maxPrice, filter, isZeroCount: true }),
-      );
+
       data.totalDocs = result.length;
-      //data.brands = brandsCount(resultForBrandsCount);
       data.brands = brandsCount(result);
       data.minMax = minMaxPriceRange(result);
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
       data.totalDocs = await Model.count(filter);
     }
-    //  const result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
-    // const result = await Model.aggregate(aggregateParams);
 
     const sortedResult = sort(result, sortBy, aggregate);
-
     const paginatedResult = sortedResult.slice((page - 1) * limit, page * limit);
 
     data.docs = paginatedResult;
-
-    // data.totalDocs = result.length;
-    // data.totalDocs = await Model.count(filter);
     data.limit = limit;
     data.totalPages = Math.ceil(data.totalDocs / limit);
     data.page = page;
