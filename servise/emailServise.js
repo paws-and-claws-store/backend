@@ -31,7 +31,7 @@ class EmailServise {
 
   async sendActivateEmail(data) {
     const email = {
-      from: "paws-and-claws-shop@meta.ua",
+      from: "kardmitriy@gmail.com",
       to: data.email,
       subject: "Підтвердження реєстрації в Paws & Claws",
       html: `<!DOCTYPE html>
@@ -141,7 +141,7 @@ class EmailServise {
 </html>
 `,
     };
-    await this.transporter.sendMail(email);
+    await this.sendGrid.send(email);
   }
 }
 
