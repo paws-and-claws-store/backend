@@ -1,4 +1,7 @@
 const minMaxPriceRange = data => {
+  if (data.length === 0) {
+    return [];
+  }
   const allPrices = data.flatMap(item => {
     const priceItems = item.items.map(item => {
       if (item.sale) {

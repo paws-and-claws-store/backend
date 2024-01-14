@@ -1,4 +1,4 @@
-const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, isZeroCount }) => {
+const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, availability }) => {
   let sortValue;
 
   if (sortBy === 'expensive') {
@@ -176,6 +176,8 @@ const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, isZeroCou
       },
     },
   ];
+  // declare a brands array for immutable coding
+  let brandsArray;
 
   // find and set the index for inserting the required sorting by weight in the array $items
   const indexForWeightSortingAdd =
@@ -187,7 +189,7 @@ const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, isZeroCou
       $sort: { 'items.size': sortValue }, // Sorting depending on sortValue
     });
   }
-  // Если sortBy не определено, применить сортировку по полю sale
+  // If sortBy is not defined, use sorting by sale field
   if (sortBy === undefined) {
     // Sorting inside items by sale field
     aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
@@ -198,25 +200,25 @@ const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, isZeroCou
     });
   }
 
-  if (isZeroCount) {
-    // Sorting inside items by sale field
+  // If brands are exist and they are string,  trim to exlude whitespaces
+  if (brands && typeof brands === 'string') {
+    brandsArray = brands.split(',').map(brand => brand.trim());
+  }
+  // add brands array to pipeline
+  if (brandsArray && brandsArray.length > 0) {
+    aggregationPipeline.unshift({
+      $match: { brand: { $in: brandsArray } },
+    });
+  }
+
+  // Apply to show only available goods if "availability" is true
+  if (availability) {
     aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
       $match: {
         'items.count': { $gt: 0 }, // Filter to exclude items with count: 0
       },
     });
   }
-
-  if (brands && typeof brands === 'string') {
-    brands = brands.split(',').map(brand => brand.trim());
-  }
-
-  if (brands && brands.length > 0) {
-    aggregationPipeline.unshift({
-      $match: { brand: { $in: brands } },
-    });
-  }
-
   return aggregationPipeline;
 };
 
