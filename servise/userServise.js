@@ -136,6 +136,8 @@ class UserServise {
   async resetPassword(email) {
     const user = await User.findOne({ email });
 
+    const { name } = user;
+
     if (!user) {
       throw HttpError(400, "User not found");
     }
@@ -148,7 +150,7 @@ class UserServise {
 
     user.resetPasswordToken = resetPasswordToken;
 
-    await emailServise.sendEmail({ email, resetPasswordToken });
+    await emailServise.sendEmail({ email, resetPasswordToken, name });
 
     await user.save();
   }
