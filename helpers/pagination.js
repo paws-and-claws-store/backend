@@ -16,6 +16,7 @@ module.exports = async ({
   brands, // string of brands, split by comma
   availability,
   aggregate,
+  category,
 }) => {
   const data = {};
 
@@ -24,7 +25,15 @@ module.exports = async ({
 
     if (aggregate) {
       result = await Model.aggregate(
-        aggregateParams({ minPrice, maxPrice, filter, sortBy, brands, availability }),
+        aggregateParams({
+          minPrice,
+          maxPrice,
+          filter,
+          sortBy,
+          brands,
+          availability,
+          category,
+        }),
       );
 
       data.totalDocs = result.length;
