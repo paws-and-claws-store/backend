@@ -1,6 +1,6 @@
 const aggregateParams = ({
-  minPrice,
-  maxPrice,
+  minPrice = 0,
+  maxPrice = 100000000,
   filter,
   sortBy,
   brands,

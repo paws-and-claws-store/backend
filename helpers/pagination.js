@@ -23,6 +23,7 @@ module.exports = async ({
 
   try {
     let result;
+    let resultDefault;
 
     if (aggregate) {
       result = await Model.aggregate(
@@ -37,10 +38,17 @@ module.exports = async ({
         }),
       );
 
+      resultDefault = await Model.aggregate(
+        aggregateParams({
+          filter,
+        }),
+      );
+
       data.totalDocs = result.length;
       data.brands = brandsCount(result);
-      data.minMax = minMaxPriceRange(result);
-      data.categories = categories(result);
+      data.brandsDefault = brandsCount(resultDefault);
+      data.minMax = minMaxPriceRange(resultDefault);
+      data.categories = categories(resultDefault);
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
       data.totalDocs = await Model.count(filter);

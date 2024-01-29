@@ -48,12 +48,34 @@ const categories = data => {
   const resultArray = Object.values(resultObject).map(pet => {
     pet._categories = Object.values(pet._categories).map(category => {
       category._variants = Object.values(category._variants);
+      category._variants = sortedByUaValue(category._variants);
       return category;
     });
+    pet._categories = sortedByUaValue(pet._categories);
     return pet;
   });
 
-  return resultArray;
+  // const hierarchy = ['_categories', '_variants'];
+
+  function sortedByUaValue(data) {
+    const sortedData = [...data].sort((a, b) => {
+      const valueA = a.ua.toUpperCase(); // ignore upper and lowercase
+      const valueB = b.ua.toUpperCase(); // ignore upper and lowercase
+
+      if (valueA < valueB) {
+        return -1;
+      }
+      if (valueA > valueB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+    });
+
+    return sortedData;
+  }
+
+  return sortedByUaValue(resultArray);
 };
 
 module.exports = categories;
