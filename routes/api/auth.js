@@ -12,10 +12,10 @@ const {
 
 const userController = require("../../controllers/userController");
 
-router.get("google", passport.authenticate("google", { scope: [email, profile] }));
+router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }));
 
 router.get(
-  "google/callback",
+  "/google/callback",
   passport.authenticate("google", { session: false }),
   userController.authGoogle
 );
