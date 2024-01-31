@@ -21,6 +21,14 @@ class UserController {
     });
   });
 
+  authGoogle = ctrlErrorHandler(async (req, res) => {
+    const { _id } = req.user;
+
+    await userServise.authGoogle(_id);
+
+    res.redirect("https://paws-and-claws-store.github.io/frontend/user");
+  });
+
   login = ctrlErrorHandler(async (req, res) => {
     const { email, password } = req.body;
 

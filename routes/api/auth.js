@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 
-const { validateBody, authenticate } = require("../../middlewares");
+const { validateBody, authenticate, passport } = require("../../middlewares");
 const {
   registerSchema,
   loginSchema,
@@ -11,6 +11,14 @@ const {
 } = require("../../models/user");
 
 const userController = require("../../controllers/userController");
+
+router.get("google", passport.authenticate("google", { scope: [email, profile] }));
+
+router.get(
+  "google/callback",
+  passport.authenticate("google", { session: false }),
+  userController.authGoogle
+);
 
 router.post("/register", validateBody(registerSchema), userController.register);
 

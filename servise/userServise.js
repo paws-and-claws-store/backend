@@ -42,6 +42,14 @@ class UserServise {
     return { accessToken, refreshToken };
   }
 
+  async authGoogle(id) {
+    const payload = { id };
+    const tokens = await tokenServise.generateTokens(payload);
+    const { accessToken, refreshToken } = tokens;
+
+    await User.findByIdAndUpdate({ accessToken, refreshToken });
+  }
+
   async login(email, password) {
     const user = await User.findOne({ email });
 
