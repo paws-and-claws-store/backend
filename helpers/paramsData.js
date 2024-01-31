@@ -1,4 +1,14 @@
-const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, availability }) => {
+const aggregateParams = ({
+  minPrice = 0,
+  maxPrice = 100000000,
+  filter,
+  sortBy,
+  brands,
+  availability,
+  //category = 'dry_cat_food, food_for_cats',
+  //category = 'food_for_kittens',
+  category,
+}) => {
   let sortValue;
 
   if (sortBy === 'expensive') {
@@ -219,6 +229,24 @@ const aggregateParams = ({ minPrice, maxPrice, filter, sortBy, brands, availabil
       },
     });
   }
+
+  // Check if filer category is exists
+  if (category && typeof category === 'string') {
+    const categoryArray = category.split(',').map(item => item.trim());
+
+    if (categoryArray.length > 0) {
+      const categoryMatch = {
+        $or: [
+          { '_pet.code': { $in: categoryArray } },
+          { '_category.code': { $in: categoryArray } },
+          { '_variant.code': { $in: categoryArray } },
+        ],
+      };
+
+      aggregationPipeline.push({ $match: categoryMatch });
+    }
+  }
+
   return aggregationPipeline;
 };
 

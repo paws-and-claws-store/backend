@@ -3,7 +3,16 @@ const { FindByNameOrBrandSchema } = require('../../models/product');
 const { HttpError, pagination, sort, sortWeights } = require('../../helpers');
 
 const getProductByName = async (req, res) => {
-  const { findBy, page = 1, sortBy, maxPrice, minPrice, brands, availability } = req.query;
+  const {
+    findBy,
+    page = 1,
+    sortBy,
+    maxPrice,
+    minPrice,
+    brands,
+    availability,
+    category,
+  } = req.query;
 
   // console.log(findBy);
   const booleanAvailability = availability === 'true';
@@ -42,6 +51,7 @@ const getProductByName = async (req, res) => {
     maxPrice,
     brands,
     availability: booleanAvailability,
+    category,
   });
 
   // if (results.docs.length === 0) {
