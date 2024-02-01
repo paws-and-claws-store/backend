@@ -26,7 +26,11 @@ class UserController {
 
     const { accessToken, refreshToken } = await userServise.authGoogle(_id);
 
-    res.cookie("refreshToken", refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      path: "https://paws-and-claws-store.github.io/frontend",
+    });
 
     res.redirect(`https://paws-and-claws-store.github.io/frontend/user?token=${accessToken}`);
   });
