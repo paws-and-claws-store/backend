@@ -10,7 +10,7 @@ const { User } = require("../models/user");
 const googleParams = {
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
-  callBackURL: `${BASE_URL}/api/auth/google/callback`,
+  callbackURL: `${BASE_URL}/api/auth/google/callback`,
   passReqToCallback: true,
 };
 
