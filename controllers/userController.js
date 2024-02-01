@@ -24,9 +24,11 @@ class UserController {
   authGoogle = ctrlErrorHandler(async (req, res) => {
     const { _id } = req.user;
 
-    await userServise.authGoogle(_id);
+    const { accessToken, refreshToken } = await userServise.authGoogle(_id);
 
-    res.redirect("https://paws-and-claws-store.github.io/frontend/user");
+    res.cookie("refreshToken", refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+
+    res.redirect(`https://paws-and-claws-store.github.io/frontend/user?token=${accessToken}`);
   });
 
   login = ctrlErrorHandler(async (req, res) => {
