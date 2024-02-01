@@ -48,6 +48,8 @@ class UserServise {
     const { accessToken, refreshToken } = tokens;
 
     await User.findByIdAndUpdate({ accessToken, refreshToken });
+
+    return { accessToken, refreshToken };
   }
 
   async login(email, password) {

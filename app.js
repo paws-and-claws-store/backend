@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const { engine } = require("express-handlebars");
 require("dotenv").config();
 
@@ -16,6 +17,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.engine("handlebars", engine());
 
 app.set("view engine", "handlebars");
