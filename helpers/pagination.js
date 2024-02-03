@@ -52,7 +52,7 @@ module.exports = async ({
 
       data.totalDocs = result.length;
       data.brands = brandsCount(result);
-      data.brandsDefault = brandsCount(resultDefault);
+      data.brandsDefault = brandsCount(resultDefault, category ? result : undefined);
       data.minMax = minMaxPriceRange(resultDefault);
       data.categories = categories(resultDefault, isPriceRangeSet || brands ? result : undefined); // if isPriceRangeSet or brands is true, use results to calculate count of goods category
     } else {
