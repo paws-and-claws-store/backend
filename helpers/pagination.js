@@ -46,7 +46,7 @@ module.exports = async ({
           filter,
         }),
       );
-
+      //  set to true if price is setted
       const isPriceRangeSet =
         minPrice !== DEFAULT_MIN_PRICE && maxPrice !== DEFAULT_MAX_PRICE ? true : false;
 
@@ -54,7 +54,7 @@ module.exports = async ({
       data.brands = brandsCount(result);
       data.brandsDefault = brandsCount(resultDefault);
       data.minMax = minMaxPriceRange(resultDefault);
-      data.categories = categories(resultDefault, isPriceRangeSet ? result : undefined);
+      data.categories = categories(resultDefault, isPriceRangeSet || brands ? result : undefined); // if isPriceRangeSet or brands is true, use results to calculate count of goods category
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
       data.totalDocs = await Model.count(filter);
