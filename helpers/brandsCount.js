@@ -1,5 +1,5 @@
 // Function to count the occurrence of brands in the provided data
-const brandsCount = (data, dataCategory) => {
+const brandsCount = (data, dataFiltered) => {
   // Filtering and counting brands in the main data
   const filterBrands = data.reduce((prev, element) => {
     if (!prev[element.brand]) {
@@ -11,9 +11,9 @@ const brandsCount = (data, dataCategory) => {
 
   let filterBrandsCategoryAll;
 
-  // If dataCategory is provided, filter and count brands in the category data
-  if (dataCategory) {
-    const filterBrandsCategory = dataCategory.reduce((prev, element) => {
+  // If dataFiltered is provided, filter and count brands with filtered data
+  if (dataFiltered) {
+    const filterBrandsCategory = dataFiltered.reduce((prev, element) => {
       if (!prev[element.brand]) {
         prev[element.brand] = 0;
       }
@@ -45,7 +45,7 @@ const brandsCount = (data, dataCategory) => {
   }
 
   // Sorting brands based on whether category data is provided or not
-  const sortedBrands = sorted(dataCategory ? filterBrandsCategoryAll : filterBrands);
+  const sortedBrands = sorted(dataFiltered ? filterBrandsCategoryAll : filterBrands);
 
   return sortedBrands;
 };
