@@ -193,6 +193,15 @@ const aggregateParams = ({
   const indexForWeightSortingAdd =
     aggregationPipeline.findIndex(obj => obj.$unwind === '$items') + 1;
 
+  // Apply to show only available goods if "availability" is true
+  if (availability) {
+    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
+      $match: {
+        'items.count': { $gt: 0 }, // Filter to exclude items with count: 0
+      },
+    });
+  }
+
   // Apply sorting only if sortValue is defined as desired
   if (sortValue === 1 || sortValue === -1) {
     aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
@@ -218,15 +227,6 @@ const aggregateParams = ({
   if (brandsArray && brandsArray.length > 0) {
     aggregationPipeline.unshift({
       $match: { brand: { $in: brandsArray } },
-    });
-  }
-
-  // Apply to show only available goods if "availability" is true
-  if (availability) {
-    aggregationPipeline.splice(indexForWeightSortingAdd, 0, {
-      $match: {
-        'items.count': { $gt: 0 }, // Filter to exclude items with count: 0
-      },
     });
   }
 

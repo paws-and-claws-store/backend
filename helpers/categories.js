@@ -1,7 +1,8 @@
-const categories = data => {
+const categories = (data, currentData) => {
   const resultObject = {};
 
-  for (const item of data) {
+  // if data is default without filters except sorting use data object insted data with filters
+  for (const item of currentData ? currentData : data) {
     if (!resultObject[item._pet._id]) {
       resultObject[item._pet._id] = {
         code: item._pet.code,
@@ -43,8 +44,51 @@ const categories = data => {
       item._variant._id
     ].count += 1;
   }
+  // if currentData defined and object data is not available create data with count 0
+  if (currentData) {
+    for (const itemData of data) {
+      const petId = itemData._pet._id;
+      const categoryId = itemData._category._id;
+      const variantId = itemData._variant._id;
 
-  // Трансформуємо об'єкти в масиви для виводу
+      if (!resultObject[petId]) {
+        resultObject[petId] = {
+          code: itemData._pet.code,
+          en: itemData._pet.en,
+          ua: itemData._pet.ua,
+          count: 0,
+          _categories: {},
+          _id: itemData._pet._id,
+        };
+      }
+
+      if (!resultObject[petId]._categories[categoryId]) {
+        resultObject[petId]._categories[categoryId] = {
+          code: itemData._category.code,
+          en: itemData._category.en,
+          ua: itemData._category.ua,
+          count: 0,
+          _variants: {},
+          _id: categoryId,
+          _pet: itemData._category._pet,
+        };
+      }
+
+      if (!resultObject[petId]._categories[categoryId]._variants[variantId]) {
+        resultObject[petId]._categories[categoryId]._variants[variantId] = {
+          code: itemData._variant.code,
+          en: itemData._variant.en,
+          ua: itemData._variant.ua,
+          count: 0,
+          _category: itemData._variant._category,
+          _id: variantId,
+          _pet: itemData._variant._pet,
+        };
+      }
+    }
+  }
+
+  // Transform objects into arrays for output
   const resultArray = Object.values(resultObject).map(pet => {
     pet._categories = Object.values(pet._categories).map(category => {
       category._variants = Object.values(category._variants);
@@ -54,8 +98,6 @@ const categories = data => {
     pet._categories = sortedByUaValue(pet._categories);
     return pet;
   });
-
-  // const hierarchy = ['_categories', '_variants'];
 
   function sortedByUaValue(data) {
     const sortedData = [...data].sort((a, b) => {
@@ -74,7 +116,7 @@ const categories = data => {
 
     return sortedData;
   }
-
+  // sort array from A to Z
   return sortedByUaValue(resultArray);
 };
 

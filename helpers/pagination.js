@@ -5,25 +5,33 @@ const brandsCount = require('./brandsCount');
 const minMaxPriceRange = require('./minMaxPriceRange');
 const categories = require('./categories');
 
+const DEFAULT_MIN_PRICE = 0;
+const DEFAULT_MAX_PRICE = 10000000000;
+
 module.exports = async ({
   Model,
   filter = {},
   page = 1,
   limit = LIMIT_PAGINATION,
   collectionLinks = [],
-  sortBy = 'cheap', // this fiels is required, beacause load more work uncorrectly response goods the same goods
-  minPrice = 0,
-  maxPrice = 10000000000,
-  brands, // string of brands, split by comma
+  sortBy = 'cheap', // This field is required because the "load more" functionality may respond incorrectly with the same goods if not specified.
+  minPrice = DEFAULT_MIN_PRICE,
+  maxPrice = DEFAULT_MAX_PRICE,
+  brands, // Comma-separated string of brands
   availability,
   aggregate,
   category,
 }) => {
   const data = {};
+  // Set to true if the price range is set
+  const isPriceRangeSet =
+    minPrice !== DEFAULT_MIN_PRICE && maxPrice !== DEFAULT_MAX_PRICE ? true : false;
+  const isBrandsSet = brands ? true : false;
 
   try {
     let result;
     let resultDefault;
+    let resultBrands;
 
     if (aggregate) {
       result = await Model.aggregate(
@@ -38,17 +46,49 @@ module.exports = async ({
         }),
       );
 
-      resultDefault = await Model.aggregate(
-        aggregateParams({
-          filter,
-        }),
+      if (brands || isPriceRangeSet) {
+        resultBrands = await Model.aggregate(
+          aggregateParams({
+            minPrice,
+            maxPrice,
+            filter,
+            sortBy,
+            availability,
+            category,
+          }),
+        );
+      }
+
+      if (availability) {
+        resultDefault = await Model.aggregate(
+          aggregateParams({
+            filter,
+            availability,
+          }),
+        );
+      }
+
+      if (!availability) {
+        resultDefault = await Model.aggregate(
+          aggregateParams({
+            filter,
+          }),
+        );
+      }
+
+      // Calculate categories count based on the conditions (price range set or brands present)
+      data.categories = categories(
+        resultDefault,
+        isPriceRangeSet || isBrandsSet ? result : undefined,
       );
 
       data.totalDocs = result.length;
-      data.brands = brandsCount(result);
-      data.brandsDefault = brandsCount(resultDefault);
+      // Calculate brand count based on conditions (brands set, price range set, or category present)
+      data.brandsDefault = brandsCount(
+        resultDefault,
+        isBrandsSet || isPriceRangeSet || category ? resultBrands : undefined,
+      );
       data.minMax = minMaxPriceRange(resultDefault);
-      data.categories = categories(resultDefault);
     } else {
       result = await Model.find(filter, '-min_sale').populate(collectionLinks.join(' '));
       data.totalDocs = await Model.count(filter);
