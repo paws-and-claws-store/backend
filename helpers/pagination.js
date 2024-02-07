@@ -46,7 +46,7 @@ module.exports = async ({
         }),
       );
 
-      if (brands || isPriceRangeSet) {
+      if (brands || isPriceRangeSet || category) {
         resultBrands = await Model.aggregate(
           aggregateParams({
             minPrice,
