@@ -32,6 +32,7 @@ module.exports = async ({
     let result;
     let resultDefault;
     let resultBrands;
+    let resultCategory;
 
     if (aggregate) {
       result = await Model.aggregate(
@@ -59,6 +60,20 @@ module.exports = async ({
         );
       }
 
+      if (isPriceRangeSet || category || brands) {
+        resultCategory = await Model.aggregate(
+          aggregateParams({
+            minPrice,
+            maxPrice,
+            filter,
+            sortBy,
+            availability,
+            brands,
+            category,
+          }),
+        );
+      }
+
       if (availability) {
         resultDefault = await Model.aggregate(
           aggregateParams({
@@ -79,7 +94,8 @@ module.exports = async ({
       // Calculate categories count based on the conditions (price range set or brands present)
       data.categories = categories(
         resultDefault,
-        isPriceRangeSet || isBrandsSet ? result : undefined,
+
+        isBrandsSet ? (category ? resultCategory : result) : undefined,
       );
 
       data.totalDocs = result.length;
