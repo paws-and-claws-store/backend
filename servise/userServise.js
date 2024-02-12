@@ -47,7 +47,7 @@ class UserServise {
     const tokens = await tokenServise.generateTokens(payload);
     const { accessToken, refreshToken } = tokens;
 
-    await User.findByIdAndUpdate({ accessToken, refreshToken });
+    await User.findByIdAndUpdate(id,{ accessToken, refreshToken });
 
     return { accessToken, refreshToken };
   }
