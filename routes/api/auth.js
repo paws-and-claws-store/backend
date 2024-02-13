@@ -5,7 +5,7 @@ const { validateBody, authenticate, passport } = require("../../middlewares");
 const {
   registerSchema,
   loginSchema,
-  refreshSchema,
+
   emailSchema,
   resetPasswordSchema,
 } = require("../../models/user");

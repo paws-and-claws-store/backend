@@ -104,7 +104,7 @@ module.exports = {
   User,
   registerSchema,
   loginSchema,
-  refreshSchema,
+
   emailSchema,
   resetPasswordSchema,
 };
