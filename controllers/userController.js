@@ -75,7 +75,12 @@ class UserController {
     const result = await userServise.refresh(refreshToken);
 
     res.json({
-      ...result,
+      accessToken: result.accessToken
+    });
+
+    res.cookie("refreshToken", result.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true
     });
   });
 
