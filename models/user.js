@@ -81,9 +81,7 @@ const loginSchema = Joi.object({
   }),
 });
 
-const refreshSchema = Joi.object({
-  refreshToken: Joi.string().required(),
-});
+
 
 const emailSchema = Joi.object({
   email: Joi.string().required().messages({
