@@ -30,7 +30,7 @@ class UserController {
 
     res.cookie("refreshToken", refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      http: true
+      httpOnly: true
     });
 
     res.redirect(`http://localhost:3000/frontend/user?token=${accessToken}`);
@@ -68,7 +68,7 @@ class UserController {
   });
 
   refresh = ctrlErrorHandler(async (req, res) => {
-    const { refreshToken } = req.body;
+    const { refreshToken } = req.cookies;
 
 
 
