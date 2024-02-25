@@ -7,7 +7,13 @@ class UserController {
 
     const result = await userServise.register(name, email, password);
 
-    console.log("result", result);
+    res.cookie("refreshToken", result.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      
+  
+     
+    });
 
     res.status(201).json({
       code: 201,
@@ -26,11 +32,18 @@ class UserController {
 
     const { accessToken, refreshToken } = await userServise.authGoogle(_id);
 
+
+    console.log('aaaaaaaaaaaaa', accessToken)
+    console.log( 'refresh',refreshToken)
+
  
 
     res.cookie("refreshToken", refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true
+      httpOnly: true,
+      sameSite: 'lax',
+     
+    
     });
 
     res.redirect(`http://localhost:3000/frontend/user?token=${accessToken}`);
@@ -40,6 +53,13 @@ class UserController {
     const { email, password } = req.body;
 
     const result = await userServise.login(email, password);
+
+    res.cookie("refreshToken", result.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: 'lax'
+     
+    });
 
     res.status(200).json({
       code: 200,
@@ -69,20 +89,28 @@ class UserController {
 
   refresh = ctrlErrorHandler(async (req, res) => {
     const { refreshToken } = req.cookies;
+
+
     
 
 
 
     const result = await userServise.refresh(refreshToken);
 
+    console.log("afterRefresh", result.refreshToken)
+    console.log("afterCurrren", result.accessToken)
+
+    res.cookie("refreshToken", result.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: 'lax'
+    });
+
     res.json({
       accessToken: result.accessToken
     });
 
-    res.cookie("refreshToken", result.refreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true
-    });
+   
   });
 
   verifyEmail = ctrlErrorHandler(async (req, res) => {

@@ -5,6 +5,7 @@ class TokenServise {
   async generateTokens(payload) {
     const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: "20s" });
     const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: "7d" });
+    
 
     return {
       accessToken,

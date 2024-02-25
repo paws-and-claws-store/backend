@@ -44,10 +44,13 @@ class UserServise {
 
   async authGoogle(id) {
     const payload = { id };
+
+    console.log('sdhjhbscdsbhbhjsd')
     const tokens = await tokenServise.generateTokens(payload);
     const { accessToken, refreshToken } = tokens;
 
     await User.findByIdAndUpdate(id,{ accessToken, refreshToken });
+
 
     return { accessToken, refreshToken };
   }
@@ -108,7 +111,7 @@ class UserServise {
     const tokens = await tokenServise.generateTokens(payload);
 
     await tokenServise.saveToken(user, tokens);
-
+ 
     return tokens;
   }
 

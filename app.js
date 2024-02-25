@@ -14,11 +14,18 @@ const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
-app.use(cors());
+app.use(cors({
+  origin: `${process.env.CLIENT_URL}`, // Замените на свой фактический домен
+  credentials: true,
+}));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.engine("handlebars", engine());
+
+
 
 app.set("view engine", "handlebars");
 app.set("views", "./views");
