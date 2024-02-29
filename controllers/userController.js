@@ -46,7 +46,7 @@ class UserController {
     
     });
 
-    res.redirect(`http://localhost:3000/frontend/user?token=${accessToken}`);
+    res.redirect(`https://paws-and-claws-store.github.io/frontend/user?token=${accessToken}`);
   });
 
   login = ctrlErrorHandler(async (req, res) => {
