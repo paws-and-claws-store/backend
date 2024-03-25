@@ -32,10 +32,6 @@ class UserController {
 
     const { accessToken, refreshToken } = await userServise.authGoogle(_id);
 
-
-    console.log('aaaaaaaaaaaaa', accessToken)
-    console.log( 'refresh',refreshToken)
-
  
 
     res.cookie("refreshToken", refreshToken, {
@@ -88,29 +84,21 @@ class UserController {
   });
 
   refresh = ctrlErrorHandler(async (req, res) => {
+  
     const { refreshToken } = req.cookies;
-
-
     
-
-
-
     const result = await userServise.refresh(refreshToken);
-
-    console.log("afterRefresh", result.refreshToken)
-    console.log("afterCurrren", result.accessToken)
-
+    
+    if(result?.accessToken && result?.refreshToken){
     res.cookie("refreshToken", result.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: 'lax'
+      httpOnly: false,
+      sameSite: 'Lax',
+      secure: true,
+      
     });
-
-    res.json({
-      accessToken: result.accessToken
-    });
-
-   
+    res.json({accessToken: result.accessToken});
+  }
   });
 
   verifyEmail = ctrlErrorHandler(async (req, res) => {
