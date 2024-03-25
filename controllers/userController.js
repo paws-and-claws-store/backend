@@ -84,21 +84,24 @@ class UserController {
   });
 
   refresh = ctrlErrorHandler(async (req, res) => {
-  
     const { refreshToken } = req.cookies;
-    
+
     const result = await userServise.refresh(refreshToken);
-    
-    if(result?.accessToken && result?.refreshToken){
+
+
+
     res.cookie("refreshToken", result.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: false,
-      sameSite: 'Lax',
-      secure: true,
-      
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true
     });
-    res.json({accessToken: result.accessToken});
-  }
+
+    res.json({
+      accessToken: result.accessToken
+    });
+
+   
   });
 
   verifyEmail = ctrlErrorHandler(async (req, res) => {
