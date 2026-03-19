@@ -26,20 +26,25 @@ class UserServise {
       password: hashPassword,
       verificationCode,
     });
+   
 
     const payload = {
       id: newUser._id,
     };
 
     const tokens = await tokenServise.generateTokens(payload);
+   
 
     const { accessToken, refreshToken } = tokens;
-
+  
+    
     await tokenServise.saveToken(newUser, tokens);
-
+   
+    console.log('asdasdasdasd')
     await emailServise.sendActivateEmail(newUser);
 
     return { accessToken, refreshToken };
+    
   }
 
   async authGoogle(id) {

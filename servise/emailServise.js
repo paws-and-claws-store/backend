@@ -228,8 +228,10 @@ class EmailServise {
   }
 
   async sendActivateEmail(data) {
+    console.log("DATA",data)
+    console.log(BASE_URL)
     const email = {
-      from: "kardmitriy@gmail.com",
+      from: "liashartem48@gmail.com",
       to: data.email,
       subject: "Підтвердження реєстрації в Paws & Claws",
       html: `<!DOCTYPE html>
@@ -451,7 +453,13 @@ class EmailServise {
 </html>
 `,
     };
-    await this.sendGrid.send(email);
+    try {
+        await this.sendGrid.send(email);
+        console.log("Email sent ✅");
+      } catch (error) {
+        console.error("SendGrid error ❌");
+        console.error(error.response?.body || error);
+      }
   }
 }
 
